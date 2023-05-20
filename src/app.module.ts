@@ -11,6 +11,7 @@ import { CommentsModule } from './comments/comments.module';
 import { SeedModule } from './seed/seed.module';
 import { RolesModule } from './roles/roles.module';
 import { GamesModule } from './games/games.module';
+import { GenresModule } from './genres/genres.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { GamesModule } from './games/games.module';
     SeedModule,
     RolesModule,
     GamesModule,
+    GenresModule,
   ],
   controllers: [],
   providers: [],
