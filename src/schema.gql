@@ -1,0 +1,78 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Comment {
+  id: ID!
+  title: String!
+  priority: Prioridad!
+  description: String
+  isActive: Boolean!
+  user: User!
+}
+
+enum Prioridad {
+  baja
+  media
+  alta
+  urgente
+}
+
+type User {
+  id: ID!
+  username: String!
+  isActive: Boolean!
+  comments: [Comment!]!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type Query {
+  showUsers: [User!]!
+  showUser(id: String!): User!
+  comments: [Comment!]!
+  comment(id: String!): Comment!
+}
+
+type Mutation {
+  createUser(authInput: AuthInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  removeComment(id: String!): Comment!
+  signup(authInput: AuthInput!): AuthResponse!
+  login(authInput: AuthInput!): AuthResponse!
+
+  """Carga de valores la base de datos"""
+  executeSeed: Boolean!
+}
+
+input AuthInput {
+  username: String!
+  password: String!
+}
+
+input UpdateUserInput {
+  id: ID!
+  username: String
+  password: String
+  isActive: Boolean
+}
+
+input CreateCommentInput {
+  title: String!
+  priority: String!
+  description: String!
+  isActive: Boolean
+}
+
+input UpdateCommentInput {
+  title: String
+  priority: String
+  description: String
+  isActive: Boolean
+  id: ID!
+}
