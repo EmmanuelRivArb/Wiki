@@ -9,6 +9,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
 import { SeedModule } from './seed/seed.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { SeedModule } from './seed/seed.module';
     AuthModule,
     CommentsModule,
     SeedModule,
+    RolesModule,
   ],
   controllers: [],
   providers: [],
