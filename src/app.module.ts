@@ -10,6 +10,9 @@ import { AuthModule } from './auth/auth.module';
 import { CommentsModule } from './comments/comments.module';
 import { SeedModule } from './seed/seed.module';
 import { RolesModule } from './roles/roles.module';
+import { GamesModule } from './games/games.module';
+import { GenresModule } from './genres/genres.module';
+import { BooksModule } from './books/books.module';
 
 @Module({
   imports: [
@@ -36,6 +39,9 @@ import { RolesModule } from './roles/roles.module';
     CommentsModule,
     SeedModule,
     RolesModule,
+    GamesModule,
+    GenresModule,
+    BooksModule,
   ],
   controllers: [],
   providers: [],
