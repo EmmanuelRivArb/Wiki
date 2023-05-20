@@ -7,6 +7,7 @@ import { User } from '../../users/entities/user.entity';
 @Entity({ name: 'comments' })
 @ObjectType()
 export class Comment {
+  
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string;

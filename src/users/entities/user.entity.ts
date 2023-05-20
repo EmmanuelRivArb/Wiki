@@ -35,5 +35,5 @@ export class User {
 
   @OneToMany(() => Comment, (comment) => comment.user, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
-  comments:Comment[];
+  comments: Comment[];
 }
