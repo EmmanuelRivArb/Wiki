@@ -2,9 +2,9 @@ import { ObjectType, Field, Int, ID, Float } from '@nestjs/graphql';
 import { Genre } from 'src/genres/entities/genre.entity';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'books' })
+@Entity({ name: 'movies' })
 @ObjectType()
-export class Book {
+export class Movie {
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string;
@@ -15,7 +15,11 @@ export class Book {
 
   @Column()
   @Field(() => String) 
-  author: string;
+  director: string;
+
+  @Column()
+  @Field(() => Int) 
+  duration: number;
 
   @Column()
   @Field(() => Float) 
@@ -29,7 +33,7 @@ export class Book {
   @Field(() => String) 
   description: string;
 
-  @ManyToOne(() => Genre, (x) => x.books, {lazy:true, nullable:false, onDelete:'CASCADE'})
+  @ManyToOne(() => Genre, (x) => x.movies, {lazy:true, nullable:false, onDelete:'CASCADE'})
   @Field(() => Genre)
   genre: Genre;
 }

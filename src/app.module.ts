@@ -13,6 +13,7 @@ import { RolesModule } from './roles/roles.module';
 import { GamesModule } from './games/games.module';
 import { GenresModule } from './genres/genres.module';
 import { BooksModule } from './books/books.module';
+import { MoviesModule } from './movies/movies.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { BooksModule } from './books/books.module';
     GamesModule,
     GenresModule,
     BooksModule,
+    MoviesModule,
   ],
   controllers: [],
   providers: [],
