@@ -4,13 +4,12 @@ import { User } from '../../users/entities/user.entity';
 
 
 
-@Entity({name:'comments'})
+@Entity({ name: 'comments' })
 @ObjectType()
 export class Comment {
-  
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id:string;
+  id: string;
 
 
   @Column()
@@ -20,5 +19,5 @@ export class Comment {
   
   @ManyToOne(() => User, (user) => user.comments, {lazy:true, nullable:false, onDelete:'CASCADE'})
   @Field(() => User)
-  user:User
+  user: User;
 }
