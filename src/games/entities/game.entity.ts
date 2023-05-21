@@ -14,7 +14,7 @@ export class Game {
   @Field(() => String) 
   title: string;
 
-  @Column()
+  @Column({type:'money'})
   @Field(() => Float) 
   price: number;
 

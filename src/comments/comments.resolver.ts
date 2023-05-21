@@ -42,6 +42,7 @@ export class CommentsResolver {
     return this.commentsService.update(updateCommentInput, user);
   }
 
+  /*
   @Mutation(() => Comment)
   removeComment(
     @Args('id', { type: () => String }, ParseUUIDPipe) id: string,
@@ -49,4 +50,5 @@ export class CommentsResolver {
   ): Promise<Comment> {
     return this.commentsService.block(id, user);
   }
+  */
 }

@@ -95,7 +95,7 @@ export class UsersService {
       this.handlerDBError(error); 
     } 
   }
-
+/*
   async block(
     id: string
   ):Promise<User> {
@@ -106,7 +106,7 @@ export class UsersService {
     return this.userRepository.save(user);
 
   }
-
+*/
   async remove(
     id: string
   ):Promise<Boolean> {
