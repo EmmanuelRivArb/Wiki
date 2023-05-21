@@ -3,14 +3,23 @@ import { BooksService } from './books.service';
 import { Book } from './entities/book.entity';
 import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { UseGuards } from '@nestjs/common';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { User } from '../users/entities/user.entity';
 
 @Resolver(() => Book)
+@UseGuards(AuthGuard)
 export class BooksResolver {
   constructor(private readonly booksService: BooksService) {}
 
   @Mutation(() => Book)
-  createBook(@Args('createBookInput') createBookInput: CreateBookInput) {
-    return this.booksService.create(createBookInput);
+  async createBook(
+    @Args('createBookInput') createBookInput: CreateBookInput,
+    @CurrentUser() user: User) 
+  {
+   // return async this.booksService.create(createBookInput, user);
+   return '';
   }
 
   @Query(() => [Book], { name: 'books' })
@@ -19,7 +28,7 @@ export class BooksResolver {
   }
 
   @Query(() => Book, { name: 'book' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.booksService.findOne(id);
   }
 
@@ -29,7 +38,7 @@ export class BooksResolver {
   }
 
   @Mutation(() => Book)
-  removeBook(@Args('id', { type: () => Int }) id: number) {
+  removeBook(@Args('id', { type: () => String }) id: string) {
     return this.booksService.remove(id);
   }
 }

@@ -1,36 +1,26 @@
 import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
 import { Genre } from 'src/Wiki Entities/genres/entities/genre.entity';
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Product } from 'src/Wiki Entities/products/product.class';
+import { Column, Entity, OneToMany, ManyToOne } from 'typeorm';
+import { Comment } from 'src/Wiki Entities/comments/entities/comment.entity';
+
 
 @Entity({ name: 'games' })
 @ObjectType()
-export class Game {
+export class Game extends Product {
 
-  @PrimaryGeneratedColumn('uuid')
-  @Field(() => ID)
-  id: string;
-
-  @Column()
-  @Field(() => String) 
-  title: string;
-
-  @Column({type:'money'})
-  @Field(() => Float) 
-  price: number;
-
+ 
   @Column()
   @Field(() => String) 
   developers: string;
 
-  @Column()
-  @Field(() => String) 
-  image: string;
-
-  @Column()
-  @Field(() => String) 
-  description: string;
 
   @ManyToOne(() => Genre, (x) => x.games, {lazy:true, nullable:false, onDelete:'CASCADE'})
   @Field(() => Genre)
   genre: Genre;
+
+  @OneToMany(() => Comment, (comment) => comment.product, {lazy:true, onDelete:'CASCADE'})
+  @Field(() => [Comment])
+  comments: Comment[];
+
 }

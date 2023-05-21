@@ -25,7 +25,8 @@ export class GamesResolver {
 
   @Mutation(() => Game)
   updateGame(@Args('updateGameInput') updateGameInput: UpdateGameInput) {
-    return this.gamesService.update(updateGameInput.id, updateGameInput);
+    //return this.gamesService.update(updateGameInput.id, updateGameInput);
+    return ''
   }
 
   @Mutation(() => Game)

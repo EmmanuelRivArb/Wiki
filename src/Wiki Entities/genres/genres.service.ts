@@ -1,26 +1,79 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateGenreInput } from './dto/create-genre.input';
 import { UpdateGenreInput } from './dto/update-genre.input';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Genre } from './entities/genre.entity';
 
 @Injectable()
 export class GenresService {
-  create(createGenreInput: CreateGenreInput) {
-    return 'This action adds a new genre';
+  
+  private logger: Logger = new Logger();
+  constructor(
+    @InjectRepository(Genre)
+    private readonly genreRepository: Repository<Genre>,
+  ) {}
+
+  async create(createGenreInput: CreateGenreInput):Promise<Genre> 
+  {
+    try {
+      const genre = this.genreRepository.create({
+        ...createGenreInput,
+        movies:[],
+        books:[],
+        games:[],
+      });
+      return await this.genreRepository.save(genre);
+    } catch (error) {
+      this.handlerDBError(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all genres`;
+  async findAll() {
+    return await this.genreRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} genre`;
+  async findOne(id: string) {
+    const genre = await this.genreRepository.findOneBy({id});
+
+    if (!genre) {
+      throw new NotFoundException(`Genre with id:${id} not found`);
+    }
+
+    return genre;
   }
 
-  update(id: number, updateGenreInput: UpdateGenreInput) {
-    return `This action updates a #${id} genre`;
+  async update(id: string, updateGenreInput: UpdateGenreInput) {
+    try {
+      const genre = await this.findOne(id);
+      const updateGenre = await this.genreRepository.preload({
+        ...updateGenreInput,
+      });
+
+      if (!updateGenre) {
+        throw new NotFoundException(
+          `Genre with id:${updateGenre.id} not found`,
+        );
+      }
+
+      return await this.genreRepository.save(updateGenre);
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      else this.handlerDBError(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} genre`;
+  async remove(id: string) {
+    const genre = await this.findOne(id);
+    await this.genreRepository.remove(genre);
+    return true;
+  }
+
+  private handlerDBError(error: any): never {
+    if (error.code === '23505') throw new BadRequestException(error.detail);
+
+    this.logger.error(error);
+
+    throw new InternalServerErrorException('Please check logs...');
   }
 }

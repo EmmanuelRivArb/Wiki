@@ -2,10 +2,40 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type Game {
+  developers: String!
+  genre: Genre!
+  comments: [Comment!]!
+}
+
+type Movie {
+  director: String!
+  duration: Int!
+  genre: Genre!
+  comments: [Comment!]!
+}
+
+type Genre {
+  id: ID!
+  name: String!
+  games: [Game!]!
+  books: [Book!]!
+  movies: [Movie!]!
+}
+
+type Book {
+  author: String!
+  genre: Genre!
+  comments: [Comment!]!
+}
+
 type Comment {
   id: ID!
   value: String
   user: User!
+  book: Book!
+  movie: Movie!
+  product: Game!
 }
 
 type User {
@@ -25,45 +55,6 @@ type Role {
   name: String!
 }
 
-type Book {
-  id: ID!
-  title: String!
-  author: String!
-  price: Float!
-  image: String!
-  description: String!
-  genre: Genre!
-}
-
-type Movie {
-  id: ID!
-  title: String!
-  director: String!
-  duration: Int!
-  price: Float!
-  image: String!
-  description: String!
-  genre: Genre!
-}
-
-type Genre {
-  id: ID!
-  name: String!
-  games: [Game!]!
-  books: [Book!]!
-  movies: [Movie!]!
-}
-
-type Game {
-  id: ID!
-  title: String!
-  price: Float!
-  developers: String!
-  image: String!
-  description: String!
-  genre: Genre!
-}
-
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
@@ -74,9 +65,9 @@ type Query {
   games: [Game!]!
   game(id: Int!): Game!
   genres: [Genre!]!
-  genre(id: Int!): Genre!
+  genre(id: String!): Genre!
   books: [Book!]!
-  book(id: Int!): Book!
+  book(id: String!): Book!
   movies: [Movie!]!
   movie(id: Int!): Movie!
 }
@@ -99,10 +90,10 @@ type Mutation {
   removeGame(id: Int!): Game!
   createGenre(createGenreInput: CreateGenreInput!): Genre!
   updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
-  removeGenre(id: Int!): Genre!
+  removeGenre(id: String!): Boolean!
   createBook(createBookInput: CreateBookInput!): Book!
   updateBook(updateBookInput: UpdateBookInput!): Book!
-  removeBook(id: Int!): Book!
+  removeBook(id: String!): Book!
   createMovie(createMovieInput: CreateMovieInput!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
   removeMovie(id: Int!): Movie!
@@ -154,29 +145,33 @@ input CreateGameInput {
 input UpdateGameInput {
   """Example field (placeholder)"""
   exampleField: Int
-  id: Int!
+  id: String!
 }
 
 input CreateGenreInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateGenreInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
+  id: String!
 }
 
 input CreateBookInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  title: String!
+  price: Float
+  image: String
+  description: String
+  author: String
 }
 
 input UpdateBookInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  title: String
+  price: Float
+  image: String
+  description: String
+  author: String
+  id: String!
 }
 
 input CreateMovieInput {

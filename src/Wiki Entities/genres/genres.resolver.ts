@@ -3,8 +3,11 @@ import { GenresService } from './genres.service';
 import { Genre } from './entities/genre.entity';
 import { CreateGenreInput } from './dto/create-genre.input';
 import { UpdateGenreInput } from './dto/update-genre.input';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Resolver(() => Genre)
+//@UseGuards(AuthGuard)
 export class GenresResolver {
   constructor(private readonly genresService: GenresService) {}
 
@@ -19,7 +22,7 @@ export class GenresResolver {
   }
 
   @Query(() => Genre, { name: 'genre' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.genresService.findOne(id);
   }
 
@@ -28,8 +31,8 @@ export class GenresResolver {
     return this.genresService.update(updateGenreInput.id, updateGenreInput);
   }
 
-  @Mutation(() => Genre)
-  removeGenre(@Args('id', { type: () => Int }) id: number) {
+  @Mutation(() => Boolean)
+  removeGenre(@Args('id', { type: () => String }) id: string) {
     return this.genresService.remove(id);
   }
 }
