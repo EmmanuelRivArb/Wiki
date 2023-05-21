@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
-import { User } from '../users/entities/user.entity';
 import { AuthResponse } from './types/auth-response.type';
 import { JwtService } from '@nestjs/jwt';
 import { AuthInput } from './dto/inputs/auth.input';
 import * as bcrypt from 'bcrypt';
 import { BadRequestException, ForbiddenException } from '@nestjs/common/exceptions';
+import { UsersService } from 'src/Wiki Entities/users/users.service';
+import { User } from 'src/Wiki Entities/users/entities/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -16,7 +16,7 @@ export class AuthService {
     ){}
 
     private async getToken(
-        user:User
+        user: User
     ):Promise<string>{
 
         delete user.password;

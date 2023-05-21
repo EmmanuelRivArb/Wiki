@@ -3,17 +3,17 @@ import { join } from 'path';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloServerPluginLandingPageLocalDefault } from '@apollo/server/plugin/landingPage/default';
-import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
-import { CommentsModule } from './comments/comments.module';
 import { SeedModule } from './seed/seed.module';
-import { RolesModule } from './roles/roles.module';
-import { GamesModule } from './games/games.module';
-import { GenresModule } from './genres/genres.module';
-import { BooksModule } from './books/books.module';
-import { MoviesModule } from './movies/movies.module';
+import { RolesModule } from './Wiki Entities/roles/roles.module';
+import { GamesModule } from './Wiki Entities/games/games.module';
+import { GenresModule } from './Wiki Entities/genres/genres.module';
+import { BooksModule } from './Wiki Entities/books/books.module';
+import { MoviesModule } from './Wiki Entities/movies/movies.module';
+import { UsersModule } from './Wiki Entities/users/users.module';
+import { CommentsModule } from './Wiki Entities/comments/comments.module';
 
 @Module({
   imports: [

@@ -5,8 +5,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { AuthInput } from '../auth/dto/inputs/auth.input';
 import { CommentsService } from '../comments/comments.service';
+import { AuthInput } from 'src/auth/dto/inputs/auth.input';
 
 
 @Injectable()

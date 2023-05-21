@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Comment } from '../comments/entities/comment.entity';
 import { Repository } from 'typeorm';
-import { User } from '../users/entities/user.entity';
-import { CommentsService } from '../comments/comments.service';
-import { UsersService } from '../users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { ForbiddenException } from '@nestjs/common/exceptions';
-import { SEED_USERS, SEED_COMMENTS } from './data/seed-data';
+import { CommentsService } from 'src/Wiki Entities/comments/comments.service';
+import { User } from 'src/Wiki Entities/users/entities/user.entity';
+import { SEED_COMMENTS, SEED_USERS } from './data/seed-data';
+import { UsersService } from 'src/Wiki Entities/users/users.service';
+import { Comment } from 'src/Wiki Entities/comments/entities/comment.entity';
 
 @Injectable()
 export class SeedService {
@@ -15,11 +15,11 @@ export class SeedService {
     private isProd: boolean;
     constructor(
 
-        private readonly configService:ConfigService,
+        private readonly configService: ConfigService,
 
-        private readonly commentsService:CommentsService,
+        private readonly commentsService: CommentsService,
 
-        private readonly UsersService:UsersService,
+        private readonly usersService: UsersService,
         
         @InjectRepository(User)
         private readonly usersRepository: Repository<Comment>,
@@ -59,7 +59,7 @@ export class SeedService {
 
         for (const user of SEED_USERS) {
 
-            users.push( await this.UsersService.create(user));
+            users.push( await this.usersService.create(user));
         }
 
         return users;

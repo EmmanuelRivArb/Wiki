@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID, Float } from '@nestjs/graphql';
-import { Genre } from 'src/genres/entities/genre.entity';
+import { Genre } from 'src/Wiki Entities/genres/entities/genre.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
 
 @Entity({ name: 'games' })

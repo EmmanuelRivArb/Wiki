@@ -16,6 +16,7 @@ import { IsUUID } from 'class-validator';
 
 @Injectable()
 export class CommentsService {
+  
   private logger: Logger = new Logger();
   constructor(
     @InjectRepository(Comment)
