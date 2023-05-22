@@ -2,40 +2,10 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Game {
-  developers: String!
-  genre: Genre!
-  comments: [Comment!]!
-}
-
-type Movie {
-  director: String!
-  duration: Int!
-  genre: Genre!
-  comments: [Comment!]!
-}
-
-type Genre {
-  id: ID!
-  name: String!
-  games: [Game!]!
-  books: [Book!]!
-  movies: [Movie!]!
-}
-
-type Book {
-  author: String!
-  genre: Genre!
-  comments: [Comment!]!
-}
-
 type Comment {
   id: ID!
   value: String
   user: User!
-  book: Book!
-  movie: Movie!
-  product: Game!
 }
 
 type User {
@@ -55,6 +25,43 @@ type Role {
   name: String!
 }
 
+type Book {
+  id: ID!
+  author: String
+  title: String!
+  price: Float!
+  image: String!
+  description: String!
+  genre: Genre!
+  comments: [Comment!]!
+}
+
+type Movie {
+  director: String!
+  duration: Int!
+  genre: Genre!
+  comments: [Comment!]!
+}
+
+type Genre {
+  id: ID!
+  name: String!
+  games: [Game!]!
+  books: [Book!]!
+  movies: [Movie!]!
+}
+
+type Game {
+  id: ID!
+  developers: String!
+  title: String!
+  price: Float!
+  image: String!
+  description: String!
+  genre: Genre!
+  comments: [Comment!]!
+}
+
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
@@ -66,6 +73,7 @@ type Query {
   game(id: Int!): Game!
   genres: [Genre!]!
   genre(id: String!): Genre!
+  genreByName(name: String!): Genre!
   books: [Book!]!
   book(id: String!): Book!
   movies: [Movie!]!
@@ -91,7 +99,7 @@ type Mutation {
   createGenre(createGenreInput: CreateGenreInput!): Genre!
   updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
   removeGenre(id: String!): Boolean!
-  createBook(createBookInput: CreateBookInput!): Book!
+  createBook(createBookInput: CreateBookInput!, genreName: String!): Book!
   updateBook(updateBookInput: UpdateBookInput!): Book!
   removeBook(id: String!): Book!
   createMovie(createMovieInput: CreateMovieInput!): Movie!

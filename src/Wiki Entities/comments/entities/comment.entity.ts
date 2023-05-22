@@ -24,7 +24,7 @@ export class Comment {
   @ManyToOne(() => User, (user) => user.comments, {lazy:true, nullable:false, onDelete:'CASCADE'})
   @Field(() => User)
   user: User;
-
+  /*
   @ManyToOne(() => Book, (book) => book.comments, {lazy:true, nullable:true, onDelete:'CASCADE'})
   @Field(() => Book)
   book: Book;
@@ -35,6 +35,6 @@ export class Comment {
 
   @ManyToOne(() => Game, (game) => game.comments, {lazy:true, nullable:true, onDelete:'CASCADE'})
   @Field(() => Game)
-  product: Game;
+  game: Game; */
 
 }

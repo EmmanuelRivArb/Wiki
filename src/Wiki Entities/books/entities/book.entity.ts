@@ -8,17 +8,35 @@ import { Product } from 'src/Wiki Entities/products/product.class';
 @ObjectType()
 export class Book extends Product{
  
-  @Column()
-  @Field(() => String) 
+  @PrimaryGeneratedColumn('uuid')
+  @Field(() => ID)
+  id: string;
+
+  @Column({nullable:true, default:"No disponible"})
+  @Field(() => String, {nullable:true}) 
   author: string;
 
+  @Column({unique:true})
+  @Field(() => String) 
+  title: string;
 
-  @ManyToOne(() => Genre, (x) => x.books, {lazy:true, nullable:false, onDelete:'CASCADE'})
+  @Column({nullable:true})
+  @Field(() => Float) 
+  price: number;
+
+  @Column({nullable:true})
+  @Field(() => String) 
+  image: string;
+
+  @Column({nullable:true})
+  @Field(() => String) 
+  description: string;
+
+  @ManyToOne(() => Genre, (genre) => genre.books, {lazy:true, nullable:false, onDelete:'CASCADE'})
   @Field(() => Genre)
   genre: Genre;
 
-  @OneToMany(() => Comment, (comment) => comment.product, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Comment, (comment) => comment.id, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
   comments: Comment[];
-
 }

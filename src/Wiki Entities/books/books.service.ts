@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { User } from '../users/entities/user.entity';
+import { GenresService } from '../genres/genres.service';
 
 @Injectable()
 export class BooksService {
@@ -13,21 +14,26 @@ export class BooksService {
   constructor(
     @InjectRepository(Book)
     private readonly bookRepository: Repository<Book>,
+    private readonly genresService:GenresService
   ) {}
 
-  async create(createBookInput: CreateBookInput, user: User) {
+  async create(createBookInput: CreateBookInput, genreName:string) {
     try {
+
+      const genre = await this.genresService.findOneByName(genreName)
       const book = await this.bookRepository.create({
         ...createBookInput,
+        genre
       });
-      return await this.bookRepository.save(book);
+      
+      return await this.bookRepository.save(book); 
     } catch (error) {
       this.handlerDBError(error);
     }
   }
 
-  findAll() {
-    return `This action returns all books`;
+  async findAll() {
+    return await this.bookRepository.find();
   }
 
   findOne(id: string) {

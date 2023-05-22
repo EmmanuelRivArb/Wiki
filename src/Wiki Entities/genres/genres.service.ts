@@ -43,6 +43,16 @@ export class GenresService {
     return genre;
   }
 
+  async findOneByName(genreName: string) {
+    let genre = await this.genreRepository.findOneBy({name:genreName});
+
+    if (!genre) {
+      genre = await this.create({name:genreName});
+    }
+    
+    return genre;
+  }
+
   async update(id: string, updateGenreInput: UpdateGenreInput) {
     try {
       const genre = await this.findOne(id);

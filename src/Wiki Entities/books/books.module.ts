@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { UsersModule } from '../users/users.module';
+import { GenresModule } from '../genres/genres.module';
 
 @Module({
   providers: [BooksResolver, BooksService],
@@ -13,7 +14,8 @@ import { UsersModule } from '../users/users.module';
     ConfigModule,
     JwtModule, 
     forwardRef(() => UsersModule),
-    TypeOrmModule.forFeature([Book])
+    TypeOrmModule.forFeature([Book]),
+    GenresModule,
   ]
 })
 export class BooksModule {}

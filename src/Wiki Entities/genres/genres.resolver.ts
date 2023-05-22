@@ -26,6 +26,11 @@ export class GenresResolver {
     return this.genresService.findOne(id);
   }
 
+  @Query(() => Genre, { name: 'genreByName' })
+  findOneByName(@Args('name', { type: () => String }) name: string) {
+    return this.genresService.findOneByName(name);
+  }
+
   @Mutation(() => Genre)
   updateGenre(@Args('updateGenreInput') updateGenreInput: UpdateGenreInput) {
     return this.genresService.update(updateGenreInput.id, updateGenreInput);

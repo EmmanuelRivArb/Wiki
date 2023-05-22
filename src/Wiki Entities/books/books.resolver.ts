@@ -9,22 +9,23 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
 
 @Resolver(() => Book)
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class BooksResolver {
   constructor(private readonly booksService: BooksService) {}
 
   @Mutation(() => Book)
   async createBook(
     @Args('createBookInput') createBookInput: CreateBookInput,
-    @CurrentUser() user: User) 
+    @Args('genreName', {type:() => String}) genreName:string
+  )
   {
-   // return async this.booksService.create(createBookInput, user);
-   return '';
+   return await this.booksService.create(createBookInput, genreName);
+
   }
 
   @Query(() => [Book], { name: 'books' })
-  findAll() {
-    return this.booksService.findAll();
+  async findAll() {
+    return await this.booksService.findAll();
   }
 
   @Query(() => Book, { name: 'book' })

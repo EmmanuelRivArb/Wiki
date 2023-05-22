@@ -16,11 +16,11 @@ export class Movie extends Product {
   @Field(() => Int) 
   duration: number;
 
-  @ManyToOne(() => Genre, (x) => x.movies, {lazy:true, nullable:false, onDelete:'CASCADE'})
+  @ManyToOne(() => Genre, (genre) => genre.movies, {lazy:true, nullable:false, onDelete:'CASCADE'})
   @Field(() => Genre)
   genre: Genre;
 
-  @OneToMany(() => Comment, (comment) => comment.product, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Comment, (comment) => comment.id, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
   comments: Comment[];
 }

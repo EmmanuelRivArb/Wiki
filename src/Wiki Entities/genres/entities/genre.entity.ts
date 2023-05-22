@@ -13,20 +13,20 @@ export class Genre {
   id: string;
 
 
-  @Column()
+  @Column({unique:true})
   @Field(() => String)
   name: string;
   
 
-  @OneToMany(() => Game, (x) => x.genre, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Game, (game) => game.genre, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Game])
   games: Game[];
 
-  @OneToMany(() => Book, (x) => x.genre, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Book, (book) => book.genre, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Book])
   books: Book[];
 
-  @OneToMany(() => Movie, (x) => x.genre, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Movie, (movie) => movie.genre, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Movie])
   movies: Movie[];
 }
