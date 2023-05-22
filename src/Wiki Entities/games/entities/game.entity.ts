@@ -41,4 +41,8 @@ export class Game extends Product {
   @OneToMany(() => Comment, (comment) => comment.id, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
   comments: Comment[];
+
+  @Column({type: String, array:true})
+  @Field(() => [String])
+  columnIds: string[];
 }

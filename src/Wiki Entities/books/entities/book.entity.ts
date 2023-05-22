@@ -21,15 +21,15 @@ export class Book extends Product{
   title: string;
 
   @Column({nullable:true})
-  @Field(() => Float) 
+  @Field(() => Float, {nullable:true}) 
   price: number;
 
   @Column({nullable:true})
-  @Field(() => String) 
+  @Field(() => String, {nullable:true}) 
   image: string;
 
   @Column({nullable:true})
-  @Field(() => String) 
+  @Field(() => String, {nullable:true}) 
   description: string;
 
   @ManyToOne(() => Genre, (genre) => genre.books, {lazy:true, nullable:false, onDelete:'CASCADE'})
@@ -39,4 +39,8 @@ export class Book extends Product{
   @OneToMany(() => Comment, (comment) => comment.id, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
   comments: Comment[];
+
+  @Column({type: String, array:true})
+  @Field(() => [String])
+  columnIds: string[];
 }

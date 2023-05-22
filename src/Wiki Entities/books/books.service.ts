@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { CreateBookInput } from './dto/create-book.input';
 import { UpdateBookInput } from './dto/update-book.input';
 import { Repository } from 'typeorm';
@@ -6,6 +6,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Book } from './entities/book.entity';
 import { User } from '../users/entities/user.entity';
 import { GenresService } from '../genres/genres.service';
+import { CreateCommentInput } from '../comments/dto/create-comment.input';
+import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class BooksService {
@@ -14,7 +16,8 @@ export class BooksService {
   constructor(
     @InjectRepository(Book)
     private readonly bookRepository: Repository<Book>,
-    private readonly genresService:GenresService
+    private readonly genresService:GenresService,
+    private readonly commentsService:CommentsService
   ) {}
 
   async create(createBookInput: CreateBookInput, genreName:string) {
@@ -23,7 +26,8 @@ export class BooksService {
       const genre = await this.genresService.findOneByName(genreName)
       const book = await this.bookRepository.create({
         ...createBookInput,
-        genre
+        genre,
+        columnIds:[]
       });
       
       return await this.bookRepository.save(book); 
@@ -33,19 +37,63 @@ export class BooksService {
   }
 
   async findAll() {
-    return await this.bookRepository.find();
+    //return await this.bookRepository.createQueryBuilder().relation('Comment')
+
+    return await this.bookRepository.find({
+      relations:{
+        comments:true,
+      }
+    });
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} book`;
+  async findOne(id: string) {
+    const book = await this.bookRepository.findOneBy({id});
+
+    if (!book) {
+      throw new NotFoundException(`Book with id:${id} not found`);
+    }
+
+    return book;
   }
 
-  update(id: string, updateBookInput: UpdateBookInput) {
-    return `This action updates a #${id} book`;
+  async update(id: string, updateBookInput: UpdateBookInput) {
+    try {
+      const book = await this.findOne(id);
+      const updateBook = await this.bookRepository.preload({
+        ...updateBookInput,
+      });
+
+      if (!updateBook) {
+        throw new NotFoundException(
+          `Book with id:${id} not found`,
+        );
+      }
+
+      return await this.bookRepository.save(updateBook);
+    } 
+    catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      else this.handlerDBError(error);
+    }
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} book`;
+  async remove(id: string) {
+    const genre = await this.findOne(id);
+    await this.bookRepository.remove(genre);
+    return true;
+  }
+
+  async createBookComment(id:string, createCommentInput:CreateCommentInput, user:User)
+  {
+    const book = await this.findOne(id);
+    console.log(book)
+    const comment = await this.commentsService.create(createCommentInput, user);
+    console.log(comment)
+    book.columnIds = [comment.id];
+    console.log(book)
+    this.bookRepository.save(book);
+    book.comments = [comment]
+    return book
   }
 
   private handlerDBError(error: any): never {

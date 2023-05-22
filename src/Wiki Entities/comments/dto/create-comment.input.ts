@@ -13,22 +13,9 @@ import { IsNull } from 'typeorm';
 
 @InputType()
 export class CreateCommentInput {
+  
   @IsString()
   @IsNotEmpty()
   @Field(() => String)
-  title: string;
-
-  //@IsIn(["baja", "media", "alta", "urgente"])
-  @Field(() => String)
-  priority: string;
-
-  @IsString()
-  @IsNotEmpty()
-  @Field(() => String)
-  description: string;
-
-  @IsBoolean()
-  @IsOptional()
-  @Field(() => Boolean, { nullable: true })
-  isActive: boolean;
+  value: string;
 }

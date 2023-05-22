@@ -29,11 +29,12 @@ type Book {
   id: ID!
   author: String
   title: String!
-  price: Float!
-  image: String!
-  description: String!
+  price: Float
+  image: String
+  description: String
   genre: Genre!
   comments: [Comment!]!
+  columnIds: [String!]!
 }
 
 type Movie {
@@ -60,6 +61,7 @@ type Game {
   description: String!
   genre: Genre!
   comments: [Comment!]!
+  columnIds: [String!]!
 }
 
 type Query {
@@ -70,14 +72,14 @@ type Query {
   roles: [Role!]!
   role(id: Int!): Role!
   games: [Game!]!
-  game(id: Int!): Game!
+  game(id: String!): Game!
   genres: [Genre!]!
   genre(id: String!): Genre!
   genreByName(name: String!): Genre!
   books: [Book!]!
   book(id: String!): Book!
   movies: [Movie!]!
-  movie(id: Int!): Movie!
+  movie(id: String!): Movie!
 }
 
 type Mutation {
@@ -93,18 +95,19 @@ type Mutation {
   createRole(createRoleInput: CreateRoleInput!): Role!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
   removeRole(id: Int!): Role!
-  createGame(createGameInput: CreateGameInput!): Game!
+  createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
-  removeGame(id: Int!): Game!
+  removeGame(id: String!): Game!
   createGenre(createGenreInput: CreateGenreInput!): Genre!
   updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
   removeGenre(id: String!): Boolean!
   createBook(createBookInput: CreateBookInput!, genreName: String!): Book!
   updateBook(updateBookInput: UpdateBookInput!): Book!
-  removeBook(id: String!): Book!
-  createMovie(createMovieInput: CreateMovieInput!): Movie!
+  removeBook(id: String!): Boolean!
+  createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
+  createMovie(createMovieInput: CreateMovieInput!, genreName: String!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
-  removeMovie(id: Int!): Movie!
+  removeMovie(id: String!): Movie!
 }
 
 input AuthInput {
@@ -120,17 +123,11 @@ input UpdateUserInput {
 }
 
 input CreateCommentInput {
-  title: String!
-  priority: String!
-  description: String!
-  isActive: Boolean
+  value: String!
 }
 
 input UpdateCommentInput {
-  title: String
-  priority: String
-  description: String
-  isActive: Boolean
+  value: String
   id: ID!
 }
 
@@ -146,13 +143,17 @@ input UpdateRoleInput {
 }
 
 input CreateGameInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  title: String!
+  price: Float
+  image: String
+  description: String
 }
 
 input UpdateGameInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  title: String
+  price: Float
+  image: String
+  description: String
   id: String!
 }
 
@@ -190,5 +191,5 @@ input CreateMovieInput {
 input UpdateMovieInput {
   """Example field (placeholder)"""
   exampleField: Int
-  id: Int!
+  id: String!
 }

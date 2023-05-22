@@ -9,8 +9,11 @@ export class MoviesResolver {
   constructor(private readonly moviesService: MoviesService) {}
 
   @Mutation(() => Movie)
-  createMovie(@Args('createMovieInput') createMovieInput: CreateMovieInput) {
-    return this.moviesService.create(createMovieInput);
+  createMovie(
+    @Args('createMovieInput') createMovieInput: CreateMovieInput,
+    @Args('genreName', {type:() => String}) genreName:string
+    ) {
+    return this.moviesService.create(createMovieInput, genreName);
   }
 
   @Query(() => [Movie], { name: 'movies' })
@@ -19,7 +22,7 @@ export class MoviesResolver {
   }
 
   @Query(() => Movie, { name: 'movie' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.moviesService.findOne(id);
   }
 
@@ -29,7 +32,8 @@ export class MoviesResolver {
   }
 
   @Mutation(() => Movie)
-  removeMovie(@Args('id', { type: () => Int }) id: number) {
+  removeMovie(@Args('id', { type: () => String }) id: string) {
     return this.moviesService.remove(id);
   }
 }
+

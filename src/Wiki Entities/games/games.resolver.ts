@@ -9,8 +9,11 @@ export class GamesResolver {
   constructor(private readonly gamesService: GamesService) {}
 
   @Mutation(() => Game)
-  createGame(@Args('createGameInput') createGameInput: CreateGameInput) {
-    return this.gamesService.create(createGameInput);
+  createGame(
+    @Args('createGameInput') createGameInput: CreateGameInput,
+    @Args('genreName', {type:() => String}) genreName:string
+    ) {
+    return this.gamesService.create(createGameInput, genreName);
   }
 
   @Query(() => [Game], { name: 'games' })
@@ -19,18 +22,17 @@ export class GamesResolver {
   }
 
   @Query(() => Game, { name: 'game' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.gamesService.findOne(id);
   }
 
   @Mutation(() => Game)
   updateGame(@Args('updateGameInput') updateGameInput: UpdateGameInput) {
-    //return this.gamesService.update(updateGameInput.id, updateGameInput);
-    return ''
+    return this.gamesService.update(updateGameInput.id, updateGameInput);
   }
 
   @Mutation(() => Game)
-  removeGame(@Args('id', { type: () => Int }) id: number) {
+  removeGame(@Args('id', { type: () => String }) id: string) {
     return this.gamesService.remove(id);
   }
 }

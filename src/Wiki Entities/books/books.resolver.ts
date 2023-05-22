@@ -7,9 +7,10 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { CreateCommentInput } from '../comments/dto/create-comment.input';
 
 @Resolver(() => Book)
-//@UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class BooksResolver {
   constructor(private readonly booksService: BooksService) {}
 
@@ -38,8 +39,17 @@ export class BooksResolver {
     return this.booksService.update(updateBookInput.id, updateBookInput);
   }
 
-  @Mutation(() => Book)
+  @Mutation(() => Boolean)
   removeBook(@Args('id', { type: () => String }) id: string) {
     return this.booksService.remove(id);
+  }
+
+  @Mutation(() => Book)
+  createBookComment(
+    @Args('id', { type: () => String }) id: string,
+    @Args('createCommentInput') createCommentInput: CreateCommentInput,
+    @CurrentUser() user: User,
+  ) {
+    return this.booksService.createBookComment(id, createCommentInput, user);
   }
 }
