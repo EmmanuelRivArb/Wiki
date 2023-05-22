@@ -16,6 +16,7 @@ import { IsUUID } from 'class-validator';
 
 @Injectable()
 export class CommentsService {
+  
   private logger: Logger = new Logger();
   constructor(
     @InjectRepository(Comment)
@@ -83,7 +84,7 @@ export class CommentsService {
       else this.handlerDBError(error);
     }
   }
-
+/*
   async block(id: string, user: User): Promise<Comment> {
     const comment = await this.findOne(id, user);
     comment.isActive = false;
@@ -130,7 +131,7 @@ export class CommentsService {
       },
     });
   }
-
+*/
   private handlerDBError(error: any): never {
     if (error.code === '23505') throw new BadRequestException(error.detail);
 

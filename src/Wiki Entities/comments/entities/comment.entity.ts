@@ -13,8 +13,8 @@ export class Comment {
   id: string;
 
 
-  @Column()
-  @Field(() => String)
+  @Column({nullable:true})
+  @Field(() => String, {nullable:true})
   value: string;
 
   

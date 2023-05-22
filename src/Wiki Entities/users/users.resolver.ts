@@ -2,9 +2,9 @@ import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
-import { AuthInput } from '../auth/dto/inputs/auth.input';
-import { AuthGuard } from '../auth/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { AuthInput } from 'src/auth/dto/inputs/auth.input';
 
 @Resolver(() => User)
 @UseGuards(AuthGuard)

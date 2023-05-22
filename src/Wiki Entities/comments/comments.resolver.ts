@@ -4,9 +4,9 @@ import { Comment } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
 import { ParseUUIDPipe, UseGuards } from '@nestjs/common';
-import { AuthGuard } from '../auth/guards/auth.guard';
-import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { AuthGuard } from 'src/auth/guards/auth.guard';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
 @Resolver(() => Comment)
 @UseGuards(AuthGuard)
@@ -42,6 +42,7 @@ export class CommentsResolver {
     return this.commentsService.update(updateCommentInput, user);
   }
 
+  /*
   @Mutation(() => Comment)
   removeComment(
     @Args('id', { type: () => String }, ParseUUIDPipe) id: string,
@@ -49,4 +50,5 @@ export class CommentsResolver {
   ): Promise<Comment> {
     return this.commentsService.block(id, user);
   }
+  */
 }

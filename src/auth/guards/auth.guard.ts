@@ -10,7 +10,7 @@ import {
   import { GqlExecutionContext, ID } from '@nestjs/graphql';
   import { Request } from 'express';
 import { userInfo } from 'os';
-import { UsersService } from '../../users/users.service';
+import { UsersService } from 'src/Wiki Entities/users/users.service';
 
   
 @Injectable()
