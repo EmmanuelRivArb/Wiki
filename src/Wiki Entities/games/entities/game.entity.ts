@@ -6,6 +6,7 @@ import { Comment } from 'src/Wiki Entities/comments/entities/comment.entity';
 
 @Entity({ name: 'games' })
 @ObjectType()
+
 export class Game extends Product {
 
   @PrimaryGeneratedColumn('uuid')
@@ -38,11 +39,8 @@ export class Game extends Product {
   genre: Genre;
   
   
-  @OneToMany(() => Comment, (comment) => comment.id, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Comment, (comment) => comment.game, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
   comments: Comment[];
 
-  @Column({type: String, array:true})
-  @Field(() => [String])
-  columnIds: string[];
 }

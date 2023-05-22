@@ -5,6 +5,9 @@ import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GenresService } from '../genres/genres.service';
+import { CreateCommentInput } from '../comments/dto/create-comment.input';
+import { User } from '../users/entities/user.entity';
+import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class MoviesService {
@@ -13,7 +16,8 @@ export class MoviesService {
   constructor(
     @InjectRepository(Movie)
     private readonly movieRepository: Repository<Movie>,
-    private readonly genresService:GenresService
+    private readonly genresService:GenresService,
+    private readonly commentsService:CommentsService
   ) {}
 
   async create(createMovieInput: CreateMovieInput, genreName:string
@@ -72,6 +76,12 @@ export class MoviesService {
     const genre = await this.findOne(id);
     await this.movieRepository.remove(genre);
     return true;
+  }
+
+  async createMovieComment(id:string, createCommentInput:CreateCommentInput, user:User)
+  {
+    const comment = await this.commentsService.createMovieComment(createCommentInput, id, user)
+    return await this.findOne(id);
   }
 
   private handlerDBError(error: any): never {

@@ -2,39 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Comment {
+type Game {
   id: ID!
-  value: String
-  user: User!
-}
-
-type User {
-  id: ID!
-  username: String!
-  isActive: Boolean!
-  comments: [Comment!]!
-}
-
-type AuthResponse {
-  token: String!
-  user: User!
-}
-
-type Role {
-  id: ID!
-  name: String!
-}
-
-type Book {
-  id: ID!
-  author: String
+  developers: String!
   title: String!
-  price: Float
-  image: String
-  description: String
+  price: Float!
+  image: String!
+  description: String!
   genre: Genre!
   comments: [Comment!]!
-  columnIds: [String!]!
 }
 
 type Movie {
@@ -52,16 +28,41 @@ type Genre {
   movies: [Movie!]!
 }
 
-type Game {
+type Book {
   id: ID!
-  developers: String!
+  author: String
   title: String!
-  price: Float!
-  image: String!
-  description: String!
+  price: Float
+  image: String
+  description: String
   genre: Genre!
   comments: [Comment!]!
-  columnIds: [String!]!
+}
+
+type Comment {
+  id: ID!
+  value: String
+  user: User!
+  book: Book!
+  movie: Movie!
+  game: Game!
+}
+
+type User {
+  id: ID!
+  username: String!
+  isActive: Boolean!
+  comments: [Comment!]!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
+}
+
+type Role {
+  id: ID!
+  name: String!
 }
 
 type Query {
@@ -85,7 +86,9 @@ type Query {
 type Mutation {
   createUser(authInput: AuthInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  createComment(createCommentInput: CreateCommentInput!): Comment!
+  createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
+  createGameComment(id: String!, createCommentInput: CreateCommentInput!): Game!
+  createMovieComment(id: String!, createCommentInput: CreateCommentInput!): Movie!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   signup(authInput: AuthInput!): AuthResponse!
   login(authInput: AuthInput!): AuthResponse!
@@ -104,7 +107,6 @@ type Mutation {
   createBook(createBookInput: CreateBookInput!, genreName: String!): Book!
   updateBook(updateBookInput: UpdateBookInput!): Book!
   removeBook(id: String!): Boolean!
-  createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
   createMovie(createMovieInput: CreateMovieInput!, genreName: String!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
   removeMovie(id: String!): Movie!

@@ -50,7 +50,7 @@ export class SeedService {
     async createDataBase(){
 
         const users = await this.loadUsers();
-        const comments = await this.loadComments(users);
+        //const comments = await this.loadComments(users);
     }
 
     async loadUsers():Promise<User[]>{
@@ -65,7 +65,7 @@ export class SeedService {
         return users;
     }
 
-    async loadComments(users:User[]):Promise<Comment[]>{
+    /*async loadComments(users:User[]):Promise<Comment[]>{
 
         const comments: Comment[] = [];
         let pos = 0;
@@ -81,5 +81,5 @@ export class SeedService {
         }
         
         return comments;
-    }
+    }*/
 }

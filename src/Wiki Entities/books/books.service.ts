@@ -8,6 +8,7 @@ import { User } from '../users/entities/user.entity';
 import { GenresService } from '../genres/genres.service';
 import { CreateCommentInput } from '../comments/dto/create-comment.input';
 import { CommentsService } from '../comments/comments.service';
+import { Comment } from '../comments/entities/comment.entity';
 
 @Injectable()
 export class BooksService {
@@ -27,7 +28,6 @@ export class BooksService {
       const book = await this.bookRepository.create({
         ...createBookInput,
         genre,
-        columnIds:[]
       });
       
       return await this.bookRepository.save(book); 
@@ -85,15 +85,8 @@ export class BooksService {
 
   async createBookComment(id:string, createCommentInput:CreateCommentInput, user:User)
   {
-    const book = await this.findOne(id);
-    console.log(book)
-    const comment = await this.commentsService.create(createCommentInput, user);
-    console.log(comment)
-    book.columnIds = [comment.id];
-    console.log(book)
-    this.bookRepository.save(book);
-    book.comments = [comment]
-    return book
+    const comment = await this.commentsService.createBookComment(createCommentInput, id, user)
+    return await this.findOne(id);
   }
 
   private handlerDBError(error: any): never {

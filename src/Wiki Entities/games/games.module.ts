@@ -7,6 +7,7 @@ import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { GenresModule } from '../genres/genres.module';
+import { CommentsModule } from '../comments/comments.module';
 
 @Module({
   providers: [GamesResolver, GamesService],
@@ -16,6 +17,7 @@ import { GenresModule } from '../genres/genres.module';
     JwtModule, 
     forwardRef(() => UsersModule),
     GenresModule,
+    CommentsModule
   ]
 })
 

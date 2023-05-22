@@ -3,6 +3,9 @@ import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { CreateMovieInput } from './dto/create-movie.input';
 import { UpdateMovieInput } from './dto/update-movie.input';
+import { CreateCommentInput } from '../comments/dto/create-comment.input';
+import { User } from '../users/entities/user.entity';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
 @Resolver(() => Movie)
 export class MoviesResolver {
@@ -34,6 +37,15 @@ export class MoviesResolver {
   @Mutation(() => Movie)
   removeMovie(@Args('id', { type: () => String }) id: string) {
     return this.moviesService.remove(id);
+  }
+
+  @Mutation(() => Movie)
+  createMovieComment(
+    @Args('id', { type: () => String }) id: string,
+    @Args('createCommentInput') createCommentInput: CreateCommentInput,
+    @CurrentUser() user: User,
+  ) {
+    return this.moviesService.createMovieComment(id, createCommentInput, user);
   }
 }
 

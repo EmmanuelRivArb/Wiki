@@ -6,6 +6,7 @@ import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
 
 @Entity({ name: 'genres' })
 @ObjectType()
+
 export class Genre {
 
   @PrimaryGeneratedColumn('uuid')

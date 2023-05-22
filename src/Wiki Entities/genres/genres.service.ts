@@ -47,7 +47,10 @@ export class GenresService {
     let genre = await this.genreRepository.findOneBy({name:genreName});
 
     if (!genre) {
-      genre = await this.create({name:genreName});
+      /* genre = await this.create({name:genreName}); */
+      throw new NotFoundException(
+        `Genre with name:${genreName} not found`,
+      );
     }
     
     return genre;

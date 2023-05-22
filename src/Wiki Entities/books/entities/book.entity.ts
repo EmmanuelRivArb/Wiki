@@ -1,4 +1,4 @@
-import { ObjectType, Field, Int, ID, Float } from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID, Float, InputType } from '@nestjs/graphql';
 import { Genre } from 'src/Wiki Entities/genres/entities/genre.entity';
 import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Comment } from 'src/Wiki Entities/comments/entities/comment.entity';
@@ -6,6 +6,7 @@ import { Product } from 'src/Wiki Entities/products/product.class';
 
 @Entity({ name: 'books' })
 @ObjectType()
+
 export class Book extends Product{
  
   @PrimaryGeneratedColumn('uuid')
@@ -36,11 +37,8 @@ export class Book extends Product{
   @Field(() => Genre)
   genre: Genre;
 
-  @OneToMany(() => Comment, (comment) => comment.id, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Comment, (comment) => comment.book, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
   comments: Comment[];
 
-  @Column({type: String, array:true})
-  @Field(() => [String])
-  columnIds: string[];
 }

@@ -20,8 +20,7 @@ export class BooksResolver {
     @Args('genreName', {type:() => String}) genreName:string
   )
   {
-   return await this.booksService.create(createBookInput, genreName);
-
+    return await this.booksService.create(createBookInput, genreName);
   }
 
   @Query(() => [Book], { name: 'books' })

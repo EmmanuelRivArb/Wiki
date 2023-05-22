@@ -18,6 +18,7 @@ import { CommentsModule } from '../comments/comments.module';
     TypeOrmModule.forFeature([Book]),
     GenresModule,
     CommentsModule
-  ]
+  ],
+  exports:[]
 })
 export class BooksModule {}

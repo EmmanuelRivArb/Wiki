@@ -14,11 +14,31 @@ export class CommentsResolver {
   constructor(private readonly commentsService: CommentsService) {}
 
   @Mutation(() => Comment)
-  createComment(
+  createBookComment(
     @Args('createCommentInput') createCommentInput: CreateCommentInput,
+    @Args('book_id', { type: () => String }, ParseUUIDPipe) book_id: string,
     @CurrentUser() user: User,
   ) {
-    return this.commentsService.create(createCommentInput, user);
+    return this.commentsService.createBookComment(createCommentInput, book_id, user);
+  }
+
+  @Mutation(() => Comment)
+  createGameComment(
+    @Args('createCommentInput') createCommentInput: CreateCommentInput,
+    @Args('game_id', { type: () => String }, ParseUUIDPipe) game_id: string,
+    @CurrentUser() user: User,
+  ) {
+    return this.commentsService.createGameComment(createCommentInput, game_id, user);
+  }
+
+
+  @Mutation(() => Comment)
+  createMovieComment(
+    @Args('createCommentInput') createCommentInput: CreateCommentInput,
+    @Args('book_id', { type: () => String }, ParseUUIDPipe) movie_id: string,
+    @CurrentUser() user: User,
+  ) {
+    return this.commentsService.createMovieComment(createCommentInput, movie_id, user);
   }
 
   @Query(() => [Comment], { name: 'comments' })

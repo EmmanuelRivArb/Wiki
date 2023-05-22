@@ -5,15 +5,19 @@ import { Game } from './entities/game.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { GenresService } from '../genres/genres.service';
+import { CreateCommentInput } from '../comments/dto/create-comment.input';
+import { User } from '../users/entities/user.entity';
+import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class GamesService {
-
+  
   private logger: Logger = new Logger();
   constructor(
     @InjectRepository(Game)
     private readonly gameRepository: Repository<Game>,
-    private readonly genresService:GenresService
+    private readonly genresService:GenresService,
+    private readonly commentsService:CommentsService
   ) {}
 
   async create(createGameInput: CreateGameInput, genreName:string
@@ -78,6 +82,12 @@ export class GamesService {
     return true;
   }
 
+  async createGameComment(id:string, createCommentInput:CreateCommentInput, user:User)
+  {
+    const comment = await this.commentsService.createGameComment(createCommentInput, id, user)
+    return await this.findOne(id);
+  }
+
   private handlerDBError(error: any): never {
     if (error.code === '23505') throw new BadRequestException(error.detail);
 
@@ -85,4 +95,6 @@ export class GamesService {
 
     throw new InternalServerErrorException('Please check logs...');
   }
+
+  
 }

@@ -6,6 +6,7 @@ import { Comment } from 'src/Wiki Entities/comments/entities/comment.entity';
 
 @Entity({ name: 'movies' })
 @ObjectType()
+
 export class Movie extends Product {
   
   @Column()
@@ -20,7 +21,7 @@ export class Movie extends Product {
   @Field(() => Genre)
   genre: Genre;
 
-  @OneToMany(() => Comment, (comment) => comment.id, {lazy:true, onDelete:'CASCADE'})
+  @OneToMany(() => Comment, (comment) => comment.movie, {lazy:true, onDelete:'CASCADE'})
   @Field(() => [Comment])
   comments: Comment[];
 }
