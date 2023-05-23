@@ -15,6 +15,7 @@ import * as bcrypt from 'bcrypt';
 import { AuthInput } from 'src/auth/dto/inputs/auth.input';
 import { ID } from '@nestjs/graphql';
 import { Role } from 'src/auth/enums/role.enum';
+import { userInfo } from 'os';
 
 @Injectable()
 export class UsersService {
@@ -50,14 +51,7 @@ export class UsersService {
   }
 
   async findOneByUsername(username: string): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: {
-        username: username,
-      },
-      relations: {
-        roles: true,
-      },
-    });
+    const user = await this.userRepository.findOneBy({username});
 
     if (!user) {
       throw new NotFoundException(`User with username:${username} not found`);
