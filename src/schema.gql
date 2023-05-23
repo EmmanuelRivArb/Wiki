@@ -58,6 +58,7 @@ type User {
   username: String!
   isActive: Boolean!
   comments: [Comment!]!
+  roles: [Role!]!
 }
 
 type AuthResponse {
@@ -68,10 +69,10 @@ type AuthResponse {
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
-  comments: [Comment!]!
-  comment(id: String!): Comment!
   roles: [Role!]!
   role(id: String!): Role!
+  comments: [Comment!]!
+  comment(id: String!): Comment!
   games: [Game!]!
   game(id: String!): Game!
   genres: [Genre!]!
@@ -86,18 +87,18 @@ type Query {
 type Mutation {
   createUser(authInput: AuthInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
+  createRole(createRoleInput: CreateRoleInput!): Role!
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+  removeRole(id: String!): Role!
+  signup(authInput: AuthInput!): AuthResponse!
+  login(authInput: AuthInput!): AuthResponse!
   createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
   createGameComment(id: String!, createCommentInput: CreateCommentInput!): Game!
   createMovieComment(id: String!, createCommentInput: CreateCommentInput!): Movie!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
-  signup(authInput: AuthInput!): AuthResponse!
-  login(authInput: AuthInput!): AuthResponse!
 
   """Carga de valores la base de datos"""
   executeSeed: Boolean!
-  createRole(createRoleInput: CreateRoleInput!): Role!
-  updateRole(updateRoleInput: UpdateRoleInput!): Role!
-  removeRole(id: String!): Role!
   createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(id: String!): Game!
@@ -124,15 +125,6 @@ input UpdateUserInput {
   isActive: Boolean
 }
 
-input CreateCommentInput {
-  value: String!
-}
-
-input UpdateCommentInput {
-  value: String
-  id: ID!
-}
-
 input CreateRoleInput {
   name: String!
 }
@@ -140,6 +132,15 @@ input CreateRoleInput {
 input UpdateRoleInput {
   name: String
   id: String!
+}
+
+input CreateCommentInput {
+  value: String!
+}
+
+input UpdateCommentInput {
+  value: String
+  id: ID!
 }
 
 input CreateGameInput {

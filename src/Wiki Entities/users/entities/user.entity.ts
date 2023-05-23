@@ -55,5 +55,6 @@ export class User {
     cascade: true,
   })
   @JoinTable()
+  @Field(() => [Role])
   roles: Role[];
 }

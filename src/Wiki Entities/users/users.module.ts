@@ -6,20 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { ConfigModule } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { CommentsModule } from '../comments/comments.module';
+import { RolesModule } from '../roles/roles.module';
 
 @Module({
-  imports:[
+  imports: [
     TypeOrmModule.forFeature([User]),
     ConfigModule,
     JwtModule,
-    CommentsModule
+    RolesModule,
   ],
   providers: [UsersResolver, UsersService],
   controllers: [UsersController],
-  exports:[
-    UsersService,
-    TypeOrmModule
-  ]
+  exports: [UsersService, TypeOrmModule],
 })
 export class UsersModule {}
