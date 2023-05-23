@@ -13,8 +13,8 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { AuthInput } from 'src/auth/dto/inputs/auth.input';
-import { RolesService } from '../roles/roles.service';
 import { ID } from '@nestjs/graphql';
+import { Role } from 'src/auth/enums/role.enum';
 
 @Injectable()
 export class UsersService {
@@ -22,17 +22,15 @@ export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    private readonly rolesService: RolesService,
   ) {}
 
-  async create(authInput: AuthInput, roleName: string = 'user'): Promise<User> {
+  async create(authInput: AuthInput, roleName: Role = Role.User): Promise<User> {
     try {
-      const role = await this.rolesService.findOneByName(roleName);
       const user = this.userRepository.create({
         ...authInput,
-        // password: bcrypt.hashSync(authInput.password, 10)
+        roles:[roleName]
       });
-      user.roles = [role];
+
       return await this.userRepository.save(user);
     } catch (error) {
       this.handlerDBError(error);

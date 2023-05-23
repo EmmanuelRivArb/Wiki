@@ -5,6 +5,8 @@ import { UpdateUserInput } from './dto/inputs/update-user.input';
 import { UseGuards } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { AuthInput } from 'src/auth/dto/inputs/auth.input';
+import { Role } from 'src/auth/enums/role.enum';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @Resolver(() => User)
 @UseGuards(AuthGuard)
@@ -17,6 +19,7 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'showUsers' })
+  @Roles(Role.Admin)
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }

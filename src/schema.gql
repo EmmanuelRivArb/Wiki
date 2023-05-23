@@ -48,17 +48,17 @@ type Comment {
   game: Game!
 }
 
-type Role {
-  id: ID!
-  name: String!
-}
-
 type User {
   id: ID!
   username: String!
   isActive: Boolean!
+  roles: Role!
   comments: [Comment!]!
-  roles: [Role!]!
+}
+
+enum Role {
+  User
+  Admin
 }
 
 type AuthResponse {
@@ -69,8 +69,6 @@ type AuthResponse {
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
-  roles: [Role!]!
-  role(id: String!): Role!
   comments: [Comment!]!
   comment(id: String!): Comment!
   games: [Game!]!
@@ -87,9 +85,6 @@ type Query {
 type Mutation {
   createUser(authInput: AuthInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  createRole(createRoleInput: CreateRoleInput!): Role!
-  updateRole(updateRoleInput: UpdateRoleInput!): Role!
-  removeRole(id: String!): Role!
   signup(authInput: AuthInput!): AuthResponse!
   login(authInput: AuthInput!): AuthResponse!
   createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
@@ -123,15 +118,6 @@ input UpdateUserInput {
   username: String
   password: String
   isActive: Boolean
-}
-
-input CreateRoleInput {
-  name: String!
-}
-
-input UpdateRoleInput {
-  name: String
-  id: String!
 }
 
 input CreateCommentInput {

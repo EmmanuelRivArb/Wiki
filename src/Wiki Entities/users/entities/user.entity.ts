@@ -1,15 +1,15 @@
-import { ObjectType, Field, Int, ID } from '@nestjs/graphql';
+import { ObjectType, Field, Int, ID, registerEnumType } from '@nestjs/graphql';
 import { Comment } from '../../comments/entities/comment.entity';
 import {
   Column,
   Entity,
-  JoinTable,
-  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { Role } from 'src/Wiki Entities/roles/entities/role.entity';
+import { Role } from 'src/auth/enums/role.enum';
+
+registerEnumType(Role, {name:'Role'});
 
 @Entity({ name: 'users' })
 @ObjectType()
@@ -42,6 +42,14 @@ export class User {
   @Field(() => Boolean)
   isActive: boolean;
 
+
+  @Column({
+    type: 'enum',
+    enum: Role,
+  })
+  @Field(() => Role)
+  roles: Role[];
+
   @OneToMany(() => Comment, (comment) => comment.user, {
     lazy: true,
     onDelete: 'CASCADE',
@@ -49,12 +57,5 @@ export class User {
   @Field(() => [Comment])
   comments: Comment[];
 
-  @ManyToMany(() => Role, (role) => role.users, {
-    nullable: true,
-    lazy: true,
-    cascade: true,
-  })
-  @JoinTable()
-  @Field(() => [Role])
-  roles: Role[];
+  
 }

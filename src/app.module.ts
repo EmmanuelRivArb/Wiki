@@ -7,7 +7,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { SeedModule } from './seed/seed.module';
-import { RolesModule } from './Wiki Entities/roles/roles.module';
 import { GamesModule } from './Wiki Entities/games/games.module';
 import { GenresModule } from './Wiki Entities/genres/genres.module';
 import { BooksModule } from './Wiki Entities/books/books.module';
@@ -43,7 +42,6 @@ import { CommentsModule } from './Wiki Entities/comments/comments.module';
     AuthModule,
     CommentsModule,
     SeedModule,
-    RolesModule,
     GamesModule,
     GenresModule,
     BooksModule,
