@@ -1,4 +1,10 @@
-import { BadRequestException, Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
 import { Game } from './entities/game.entity';
@@ -11,26 +17,23 @@ import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class GamesService {
-  
   private logger: Logger = new Logger();
   constructor(
     @InjectRepository(Game)
     private readonly gameRepository: Repository<Game>,
-    private readonly genresService:GenresService,
-    private readonly commentsService:CommentsService
+    private readonly genresService: GenresService,
+    private readonly commentsService: CommentsService,
   ) {}
 
-  async create(createGameInput: CreateGameInput, genreName:string
-    ) {
+  async create(createGameInput: CreateGameInput, genreName: string) {
     try {
-
-      const genre = await this.genresService.findOneByName(genreName)
+      const genre = await this.genresService.findOneByName(genreName);
       const game = await this.gameRepository.create({
         ...createGameInput,
-        genre
+        genre,
       });
-      
-      return await this.gameRepository.save(game); 
+
+      return await this.gameRepository.save(game);
     } catch (error) {
       this.handlerDBError(error);
     }
@@ -39,14 +42,14 @@ export class GamesService {
   async findAll() {
     //return await this.gameRepository.createQueryBuilder().relation('Comment')
     return await this.gameRepository.find({
-      relations:{
-        comments:true
-      }
+      relations: {
+        comments: true,
+      },
     });
   }
 
   async findOne(id: string) {
-    const game = await this.gameRepository.findOneBy({id});
+    const game = await this.gameRepository.findOneBy({ id });
 
     if (!game) {
       throw new NotFoundException(`Genre with id:${id} not found`);
@@ -63,28 +66,32 @@ export class GamesService {
       });
 
       if (!updateGame) {
-        throw new NotFoundException(
-          `Game with id:${id} not found`,
-        );
+        throw new NotFoundException(`Game with id:${id} not found`);
       }
 
       return await this.gameRepository.save(updateGame);
-    } 
-    catch (error) {
+    } catch (error) {
       if (error instanceof NotFoundException) throw error;
       else this.handlerDBError(error);
     }
   }
 
   async remove(id: string) {
-    const genre = await this.findOne(id);
-    await this.gameRepository.remove(genre);
+    const game = await this.findOne(id);
+    await this.gameRepository.remove(game);
     return true;
   }
 
-  async createGameComment(id:string, createCommentInput:CreateCommentInput, user:User)
-  {
-    const comment = await this.commentsService.createGameComment(createCommentInput, id, user)
+  async createGameComment(
+    id: string,
+    createCommentInput: CreateCommentInput,
+    user: User,
+  ) {
+    const comment = await this.commentsService.createGameComment(
+      createCommentInput,
+      id,
+      user,
+    );
     return await this.findOne(id);
   }
 
@@ -95,6 +102,4 @@ export class GamesService {
 
     throw new InternalServerErrorException('Please check logs...');
   }
-
-  
 }

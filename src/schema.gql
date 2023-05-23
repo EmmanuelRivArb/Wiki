@@ -48,6 +48,11 @@ type Comment {
   game: Game!
 }
 
+type Role {
+  id: ID!
+  name: String!
+}
+
 type User {
   id: ID!
   username: String!
@@ -60,18 +65,13 @@ type AuthResponse {
   user: User!
 }
 
-type Role {
-  id: ID!
-  name: String!
-}
-
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
   comments: [Comment!]!
   comment(id: String!): Comment!
   roles: [Role!]!
-  role(id: Int!): Role!
+  role(id: String!): Role!
   games: [Game!]!
   game(id: String!): Game!
   genres: [Genre!]!
@@ -97,7 +97,7 @@ type Mutation {
   executeSeed: Boolean!
   createRole(createRoleInput: CreateRoleInput!): Role!
   updateRole(updateRoleInput: UpdateRoleInput!): Role!
-  removeRole(id: Int!): Role!
+  removeRole(id: String!): Role!
   createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(id: String!): Game!
@@ -134,14 +134,12 @@ input UpdateCommentInput {
 }
 
 input CreateRoleInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateRoleInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
+  id: String!
 }
 
 input CreateGameInput {
