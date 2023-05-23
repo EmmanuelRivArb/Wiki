@@ -13,6 +13,9 @@ export class Role {
   @Field(() => String)
   name: string;
 
-  @ManyToMany(() => User, (user) => user.roles, { nullable: true })
+  @ManyToMany(() => User, (user) => user.roles, {
+    nullable: true,
+    lazy: true,
+  })
   users: User[];
 }
