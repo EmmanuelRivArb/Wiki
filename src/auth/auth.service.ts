@@ -6,6 +6,7 @@ import * as bcrypt from 'bcrypt';
 import { BadRequestException, ForbiddenException } from '@nestjs/common/exceptions';
 import { UsersService } from 'src/Wiki Entities/users/users.service';
 import { User } from 'src/Wiki Entities/users/entities/user.entity';
+import { LoginInput } from './dto/inputs/login.input';
 
 @Injectable()
 export class AuthService {
@@ -33,19 +34,19 @@ export class AuthService {
     }
 
     async login(
-        authInput:AuthInput
+        loginInput:LoginInput
     ):Promise<AuthResponse>{
         
-        const user = await this.usersService.findOneByUsername(authInput.username);
+        const user = await this.usersService.findOneByUsername(loginInput.email);
 
-        if(!bcrypt.compareSync(authInput.password, user.password))
+        if(!bcrypt.compareSync(loginInput.password, user.password))
         {
             throw new BadRequestException(`Username or Password incorrect.`)
         }
 
         if(!user.isActive)
         {
-            throw new ForbiddenException(`User ${user.username} blocked. Please contact with the admin to manage your account.`);
+            throw new ForbiddenException(`User ${user.email} blocked. Please contact with the admin to manage your account.`);
         }
 
         const token = await this.getToken(user);

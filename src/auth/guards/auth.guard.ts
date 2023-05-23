@@ -38,7 +38,7 @@ export class AuthGuard implements CanActivate {
 
       if (user.isActive === false) {
         throw new ForbiddenException(
-          `User ${user.username} blocked. Please contact with the admin to manage your account.`,
+          `User ${user.email} blocked. Please contact with the admin to manage your account.`,
         );
       }
 

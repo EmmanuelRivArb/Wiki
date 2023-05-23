@@ -1,28 +1,41 @@
 export const SEED_USERS = [
 
     {
-        username:"Itop_1",
+        email:"Itop_1@correo.com",
         password:"Asdf1234!",
+        name:"Itop",
+        surname:"1"
     },
     {
-        username:"Itop_2",
+        email:"Itop_2@correo.com",
         password:"Asdf1234!",
+        name:"Itop",
+        surname:"2"
     },
     {
-        username:"Itop_3",
+        email:"Itop_3@correo.com",
         password:"Asdf1234!",
+        name:"Itop",
+        surname:"3"
     },
     {
-        username:"Itop_4",
+        email:"Itop_4@correo.com",
         password:"Asdf1234!",
+        name:"Itop",
+        surname:"4"
 
     },
-    {
-        username:"Itop_5",
-        password:"Asdf1234!",
-    }
+    
 ]
 
+export const SEED_ADMINS = [
+    {
+        email:"Itop_5@correo.com",
+        password:"Asdf1234!",
+        name:"Itop",
+        surname:"5"
+    }
+]
 
 export const SEED_COMMENTS = [
 

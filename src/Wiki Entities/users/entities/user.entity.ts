@@ -20,7 +20,17 @@ export class User {
 
   @Column({ unique: true })
   @Field(() => String)
-  username: string;
+  email: string;
+
+  @Column()
+  @Field(() => String)
+  name: string;
+
+
+  @Column()
+  @Field(() => String)
+  surname: string;
+
 
   @Column({
     /*transformer:{
@@ -56,6 +66,5 @@ export class User {
   })
   @Field(() => [Comment])
   comments: Comment[];
-
   
 }

@@ -5,9 +5,11 @@ import { ConfigService } from '@nestjs/config';
 import { ForbiddenException } from '@nestjs/common/exceptions';
 import { CommentsService } from 'src/Wiki Entities/comments/comments.service';
 import { User } from 'src/Wiki Entities/users/entities/user.entity';
-import { SEED_COMMENTS, SEED_USERS } from './data/seed-data';
+import { SEED_ADMINS, SEED_COMMENTS, SEED_USERS } from './data/seed-data';
 import { UsersService } from 'src/Wiki Entities/users/users.service';
 import { Comment } from 'src/Wiki Entities/comments/entities/comment.entity';
+import { Role } from 'src/auth/enums/role.enum';
+
 
 @Injectable()
 export class SeedService {
@@ -62,6 +64,10 @@ export class SeedService {
             users.push( await this.usersService.create(user));
         }
 
+        for(const user of SEED_ADMINS){
+
+            users.push(await this.usersService.create(user,Role.Admin))
+        }
         return users;
     }
 

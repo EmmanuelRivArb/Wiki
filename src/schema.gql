@@ -50,7 +50,9 @@ type Comment {
 
 type User {
   id: ID!
-  username: String!
+  email: String!
+  name: String!
+  surname: String!
   isActive: Boolean!
   roles: Role!
   comments: [Comment!]!
@@ -86,7 +88,7 @@ type Mutation {
   createUser(authInput: AuthInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   signup(authInput: AuthInput!): AuthResponse!
-  login(authInput: AuthInput!): AuthResponse!
+  login(loginInput: LoginInput!): AuthResponse!
   createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
   createGameComment(id: String!, createCommentInput: CreateCommentInput!): Game!
   createMovieComment(id: String!, createCommentInput: CreateCommentInput!): Movie!
@@ -109,15 +111,24 @@ type Mutation {
 }
 
 input AuthInput {
-  username: String!
-  password: String!
+  email: String
+  name: String
+  surname: String
+  password: String
 }
 
 input UpdateUserInput {
   id: ID!
-  username: String
+  email: String
+  name: String
+  surname: String
   password: String
   isActive: Boolean
+}
+
+input LoginInput {
+  email: String
+  password: String
 }
 
 input CreateCommentInput {
