@@ -73,8 +73,6 @@ type Query {
   showUser(id: String!): User!
   comments: [Comment!]!
   comment(id: String!): Comment!
-  games: [Game!]!
-  game(id: String!): Game!
   genres: [Genre!]!
   genre(id: String!): Genre!
   genreByName(name: String!): Genre!
@@ -82,6 +80,8 @@ type Query {
   book(id: String!): Book!
   movies: [Movie!]!
   movie(id: String!): Movie!
+  games: [Game!]!
+  game(id: String!): Game!
 }
 
 type Mutation {
@@ -96,9 +96,6 @@ type Mutation {
 
   """Carga de valores la base de datos"""
   executeSeed: Boolean!
-  createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
-  updateGame(updateGameInput: UpdateGameInput!): Game!
-  removeGame(id: String!): Game!
   createGenre(createGenreInput: CreateGenreInput!): Genre!
   updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
   removeGenre(id: String!): Boolean!
@@ -108,6 +105,9 @@ type Mutation {
   createMovie(createMovieInput: CreateMovieInput!, genreName: String!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
   removeMovie(id: String!): Movie!
+  createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
+  updateGame(updateGameInput: UpdateGameInput!): Game!
+  removeGame(id: String!): Game!
 }
 
 input AuthInput {
@@ -138,21 +138,6 @@ input CreateCommentInput {
 input UpdateCommentInput {
   value: String
   id: ID!
-}
-
-input CreateGameInput {
-  title: String!
-  price: Float
-  image: String
-  description: String
-}
-
-input UpdateGameInput {
-  title: String
-  price: Float
-  image: String
-  description: String
-  id: String!
 }
 
 input CreateGenreInput {
@@ -189,5 +174,20 @@ input CreateMovieInput {
 input UpdateMovieInput {
   """Example field (placeholder)"""
   exampleField: Int
+  id: String!
+}
+
+input CreateGameInput {
+  title: String!
+  price: Float
+  image: String
+  description: String
+}
+
+input UpdateGameInput {
+  title: String
+  price: Float
+  image: String
+  description: String
   id: String!
 }

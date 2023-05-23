@@ -18,7 +18,8 @@ import { CommentsModule } from '../comments/comments.module';
     forwardRef(() => UsersModule),
     GenresModule,
     CommentsModule
-  ]
+  ],
+  exports:[GamesService, TypeOrmModule]
 })
 
 export class GamesModule {}

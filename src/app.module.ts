@@ -13,6 +13,8 @@ import { BooksModule } from './Wiki Entities/books/books.module';
 import { MoviesModule } from './Wiki Entities/movies/movies.module';
 import { UsersModule } from './Wiki Entities/users/users.module';
 import { CommentsModule } from './Wiki Entities/comments/comments.module';
+import { APP_GUARD } from '@nestjs/core';
+import { RolesGuard } from './auth/guards/roles.guard';
 
 @Module({
   imports: [
@@ -48,6 +50,9 @@ import { CommentsModule } from './Wiki Entities/comments/comments.module';
     MoviesModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [{
+    provide: APP_GUARD,
+    useClass: RolesGuard,
+  }],
 })
 export class AppModule {}

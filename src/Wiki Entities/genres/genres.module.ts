@@ -15,7 +15,7 @@ import { ConfigModule } from '@nestjs/config';
     forwardRef(() => UsersModule),
     TypeOrmModule.forFeature([Genre])
   ],
-  exports:[GenresService]
+  exports:[GenresService, TypeOrmModule]
 })
 
 export class GenresModule {}

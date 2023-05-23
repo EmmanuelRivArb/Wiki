@@ -28,7 +28,8 @@ export class AuthService {
         authInput:AuthInput
     ):Promise<AuthResponse>{
 
-        const user = await this.usersService.create(authInput);   
+        const create_user = await this.usersService.create(authInput);
+        const user = await this.usersService.findOneByUsername(create_user.email);   
         const token = await this.getToken(user);
         return {token, user}
     }

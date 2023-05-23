@@ -18,6 +18,7 @@ import { CommentsModule } from '../comments/comments.module';
     forwardRef(() => UsersModule),
     GenresModule,
     CommentsModule,
-  ]
+  ],
+  exports:[MoviesService, TypeOrmModule]
 })
 export class MoviesModule {}

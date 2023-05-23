@@ -19,7 +19,7 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'showUsers' })
-  @Roles(Role.Admin)
+  //@AuthGuard(Roles(Role.Admin))
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }

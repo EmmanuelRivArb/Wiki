@@ -19,6 +19,6 @@ import { CommentsModule } from '../comments/comments.module';
     GenresModule,
     CommentsModule
   ],
-  exports:[]
+  exports:[BooksService, TypeOrmModule]
 })
 export class BooksModule {}
