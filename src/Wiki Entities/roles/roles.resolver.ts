@@ -19,7 +19,7 @@ export class RolesResolver {
   }
 
   @Query(() => Role, { name: 'role' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  findOne(@Args('id', { type: () => String }) id: string) {
     return this.rolesService.findOne(id);
   }
 
@@ -29,7 +29,7 @@ export class RolesResolver {
   }
 
   @Mutation(() => Role)
-  removeRole(@Args('id', { type: () => Int }) id: number) {
+  removeRole(@Args('id', { type: () => String }) id: string) {
     return this.rolesService.remove(id);
   }
 }

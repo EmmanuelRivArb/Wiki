@@ -1,26 +1,105 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateGameInput } from './dto/create-game.input';
 import { UpdateGameInput } from './dto/update-game.input';
+import { Game } from './entities/game.entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { GenresService } from '../genres/genres.service';
+import { CreateCommentInput } from '../comments/dto/create-comment.input';
+import { User } from '../users/entities/user.entity';
+import { CommentsService } from '../comments/comments.service';
 
 @Injectable()
 export class GamesService {
-  create(createGameInput: CreateGameInput) {
-    return 'This action adds a new game';
+  private logger: Logger = new Logger();
+  constructor(
+    @InjectRepository(Game)
+    private readonly gameRepository: Repository<Game>,
+    private readonly genresService: GenresService,
+    private readonly commentsService: CommentsService,
+  ) {}
+
+  async create(createGameInput: CreateGameInput, genreName: string) {
+    try {
+      const genre = await this.genresService.findOneByName(genreName);
+      const game = await this.gameRepository.create({
+        ...createGameInput,
+        genre,
+      });
+
+      return await this.gameRepository.save(game);
+    } catch (error) {
+      this.handlerDBError(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all games`;
+  async findAll() {
+    //return await this.gameRepository.createQueryBuilder().relation('Comment')
+    return await this.gameRepository.find({
+      relations: {
+        comments: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} game`;
+  async findOne(id: string) {
+    const game = await this.gameRepository.findOneBy({ id });
+
+    if (!game) {
+      throw new NotFoundException(`Genre with id:${id} not found`);
+    }
+
+    return game;
   }
 
-  update(id: number, updateGameInput: UpdateGameInput) {
-    return `This action updates a #${id} game`;
+  async update(id: string, updateGameInput: UpdateGameInput) {
+    try {
+      const game = await this.findOne(id);
+      const updateGame = await this.gameRepository.preload({
+        ...updateGameInput,
+      });
+
+      if (!updateGame) {
+        throw new NotFoundException(`Game with id:${id} not found`);
+      }
+
+      return await this.gameRepository.save(updateGame);
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      else this.handlerDBError(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} game`;
+  async remove(id: string) {
+    const game = await this.findOne(id);
+    await this.gameRepository.remove(game);
+    return true;
+  }
+
+  async createGameComment(
+    id: string,
+    createCommentInput: CreateCommentInput,
+    user: User,
+  ) {
+    const comment = await this.commentsService.createGameComment(
+      createCommentInput,
+      id,
+      user,
+    );
+    return await this.findOne(id);
+  }
+
+  private handlerDBError(error: any): never {
+    if (error.code === '23505') throw new BadRequestException(error.detail);
+
+    this.logger.error(error);
+
+    throw new InternalServerErrorException('Please check logs...');
   }
 }

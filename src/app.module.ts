@@ -17,12 +17,16 @@ import { CommentsModule } from './Wiki Entities/comments/comments.module';
 
 @Module({
   imports: [
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRoot({
       driver: ApolloDriver,
       playground: false,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       plugins: [ApolloServerPluginLandingPageLocalDefault()],
       includeStacktraceInErrorResponses: false,
+      cors: {
+        origin: '*',
+        credentials: true,
+      },
     }),
     ConfigModule.forRoot(),
     TypeOrmModule.forRoot({

@@ -26,7 +26,7 @@ export const SEED_USERS = [
 
 export const SEED_COMMENTS = [
 
-
+/*
     {
         title: "título 1",
         priority: "baja",
@@ -134,10 +134,10 @@ export const SEED_COMMENTS = [
     },
 
     {
-        title: "título 15",
+        value: "título 15",
         priority: "baja",
         description: "Esta es la tarea 15 ",
         isActive: true
     },
-    
+    */
 ]

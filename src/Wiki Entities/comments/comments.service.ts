@@ -10,9 +10,8 @@ import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
 import { Comment } from './entities/comment.entity';
 import { Repository } from 'typeorm';
-import { ID } from '@nestjs/graphql';
 import { User } from '../users/entities/user.entity';
-import { IsUUID } from 'class-validator';
+
 
 @Injectable()
 export class CommentsService {
@@ -21,15 +20,53 @@ export class CommentsService {
   constructor(
     @InjectRepository(Comment)
     private readonly commentRepository: Repository<Comment>,
+
   ) {}
 
-  async create(
+  async createBookComment(
     createCommentInput: CreateCommentInput,
+    book_id: string,
     user: User,
   ): Promise<Comment> {
     try {
       const comment = await this.commentRepository.create({
         ...createCommentInput,
+        book:{id:book_id},
+        user,
+      });
+      return await this.commentRepository.save(comment);
+    } catch (error) {
+      this.handlerDBError(error);
+    }
+  }
+
+  async createGameComment(
+    createCommentInput: CreateCommentInput,
+    game_id: string,
+    user: User,
+  ): Promise<Comment> {
+    try {
+
+      const comment = await this.commentRepository.create({
+        ...createCommentInput,
+        game:{id:game_id},
+        user,
+      });
+      return await this.commentRepository.save(comment);
+    } catch (error) {
+      this.handlerDBError(error);
+    }
+  }
+
+  async createMovieComment(
+    createCommentInput: CreateCommentInput,
+    movie_id: string,
+    user: User,
+  ): Promise<Comment> {
+    try {
+      const comment = await this.commentRepository.create({
+        ...createCommentInput,
+        movie:{id:movie_id},
         user,
       });
       return await this.commentRepository.save(comment);

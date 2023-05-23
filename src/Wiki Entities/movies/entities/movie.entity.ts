@@ -1,18 +1,14 @@
 import { ObjectType, Field, Int, ID, Float } from '@nestjs/graphql';
 import { Genre } from 'src/Wiki Entities/genres/entities/genre.entity';
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Product } from 'src/Wiki Entities/products/product.class';
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Comment } from 'src/Wiki Entities/comments/entities/comment.entity';
 
 @Entity({ name: 'movies' })
 @ObjectType()
-export class Movie {
-  @PrimaryGeneratedColumn('uuid')
-  @Field(() => ID)
-  id: string;
 
-  @Column()
-  @Field(() => String) 
-  title: string;
-
+export class Movie extends Product {
+  
   @Column()
   @Field(() => String) 
   director: string;
@@ -21,19 +17,11 @@ export class Movie {
   @Field(() => Int) 
   duration: number;
 
-  @Column()
-  @Field(() => Float) 
-  price: number;
-
-  @Column()
-  @Field(() => String) 
-  image: string;
-
-  @Column()
-  @Field(() => String) 
-  description: string;
-
-  @ManyToOne(() => Genre, (x) => x.movies, {lazy:true, nullable:false, onDelete:'CASCADE'})
+  @ManyToOne(() => Genre, (genre) => genre.movies, {lazy:true, nullable:false, onDelete:'CASCADE'})
   @Field(() => Genre)
   genre: Genre;
+
+  @OneToMany(() => Comment, (comment) => comment.movie, {lazy:true, onDelete:'CASCADE'})
+  @Field(() => [Comment])
+  comments: Comment[];
 }

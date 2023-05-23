@@ -2,48 +2,22 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Comment {
+type Game {
   id: ID!
-  value: String
-  user: User!
-}
-
-type User {
-  id: ID!
-  username: String!
-  isActive: Boolean!
+  developers: String!
+  title: String!
+  price: Float!
+  image: String!
+  description: String!
+  genre: Genre!
   comments: [Comment!]!
 }
 
-type AuthResponse {
-  token: String!
-  user: User!
-}
-
-type Role {
-  id: ID!
-  name: String!
-}
-
-type Book {
-  id: ID!
-  title: String!
-  author: String!
-  price: Float!
-  image: String!
-  description: String!
-  genre: Genre!
-}
-
 type Movie {
-  id: ID!
-  title: String!
   director: String!
   duration: Int!
-  price: Float!
-  image: String!
-  description: String!
   genre: Genre!
+  comments: [Comment!]!
 }
 
 type Genre {
@@ -54,58 +28,89 @@ type Genre {
   movies: [Movie!]!
 }
 
-type Game {
+type Book {
   id: ID!
+  author: String
   title: String!
-  price: Float!
-  developers: String!
-  image: String!
-  description: String!
+  price: Float
+  image: String
+  description: String
   genre: Genre!
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  value: String
+  user: User!
+  book: Book!
+  movie: Movie!
+  game: Game!
+}
+
+type Role {
+  id: ID!
+  name: String!
+}
+
+type User {
+  id: ID!
+  username: String!
+  isActive: Boolean!
+  comments: [Comment!]!
+  roles: [Role!]!
+}
+
+type AuthResponse {
+  token: String!
+  user: User!
 }
 
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
+  roles: [Role!]!
+  role(id: String!): Role!
   comments: [Comment!]!
   comment(id: String!): Comment!
-  roles: [Role!]!
-  role(id: Int!): Role!
   games: [Game!]!
-  game(id: Int!): Game!
+  game(id: String!): Game!
   genres: [Genre!]!
-  genre(id: Int!): Genre!
+  genre(id: String!): Genre!
+  genreByName(name: String!): Genre!
   books: [Book!]!
-  book(id: Int!): Book!
+  book(id: String!): Book!
   movies: [Movie!]!
-  movie(id: Int!): Movie!
+  movie(id: String!): Movie!
 }
 
 type Mutation {
   createUser(authInput: AuthInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
-  createComment(createCommentInput: CreateCommentInput!): Comment!
-  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  createRole(createRoleInput: CreateRoleInput!): Role!
+  updateRole(updateRoleInput: UpdateRoleInput!): Role!
+  removeRole(id: String!): Role!
   signup(authInput: AuthInput!): AuthResponse!
   login(authInput: AuthInput!): AuthResponse!
+  createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
+  createGameComment(id: String!, createCommentInput: CreateCommentInput!): Game!
+  createMovieComment(id: String!, createCommentInput: CreateCommentInput!): Movie!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
 
   """Carga de valores la base de datos"""
   executeSeed: Boolean!
-  createRole(createRoleInput: CreateRoleInput!): Role!
-  updateRole(updateRoleInput: UpdateRoleInput!): Role!
-  removeRole(id: Int!): Role!
-  createGame(createGameInput: CreateGameInput!): Game!
+  createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
-  removeGame(id: Int!): Game!
+  removeGame(id: String!): Game!
   createGenre(createGenreInput: CreateGenreInput!): Genre!
   updateGenre(updateGenreInput: UpdateGenreInput!): Genre!
-  removeGenre(id: Int!): Genre!
-  createBook(createBookInput: CreateBookInput!): Book!
+  removeGenre(id: String!): Boolean!
+  createBook(createBookInput: CreateBookInput!, genreName: String!): Book!
   updateBook(updateBookInput: UpdateBookInput!): Book!
-  removeBook(id: Int!): Book!
-  createMovie(createMovieInput: CreateMovieInput!): Movie!
+  removeBook(id: String!): Boolean!
+  createMovie(createMovieInput: CreateMovieInput!, genreName: String!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
-  removeMovie(id: Int!): Movie!
+  removeMovie(id: String!): Movie!
 }
 
 input AuthInput {
@@ -120,63 +125,63 @@ input UpdateUserInput {
   isActive: Boolean
 }
 
-input CreateCommentInput {
-  title: String!
-  priority: String!
-  description: String!
-  isActive: Boolean
-}
-
-input UpdateCommentInput {
-  title: String
-  priority: String
-  description: String
-  isActive: Boolean
-  id: ID!
-}
-
 input CreateRoleInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateRoleInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
+  id: String!
+}
+
+input CreateCommentInput {
+  value: String!
+}
+
+input UpdateCommentInput {
+  value: String
+  id: ID!
 }
 
 input CreateGameInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  title: String!
+  price: Float
+  image: String
+  description: String
 }
 
 input UpdateGameInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  title: String
+  price: Float
+  image: String
+  description: String
+  id: String!
 }
 
 input CreateGenreInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  name: String!
 }
 
 input UpdateGenreInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  name: String
+  id: String!
 }
 
 input CreateBookInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  title: String!
+  price: Float
+  image: String
+  description: String
+  author: String
 }
 
 input UpdateBookInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  title: String
+  price: Float
+  image: String
+  description: String
+  author: String
+  id: String!
 }
 
 input CreateMovieInput {
@@ -187,5 +192,5 @@ input CreateMovieInput {
 input UpdateMovieInput {
   """Example field (placeholder)"""
   exampleField: Int
-  id: Int!
+  id: String!
 }
