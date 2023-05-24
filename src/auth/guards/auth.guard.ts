@@ -35,13 +35,12 @@ export class AuthGuard implements CanActivate {
 
       //CONSULTA A USER
       const user = await this.usersService.findOne(payload.id);
-
       if (user.isActive === false) {
         throw new ForbiddenException(
           `User ${user.email} blocked. Please contact with the admin to manage your account.`,
         );
       }
-
+      
       request['user'] = payload;
     } catch (error) {
       if (error instanceof ForbiddenException) throw error;

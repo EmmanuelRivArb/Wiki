@@ -72,9 +72,15 @@ type AuthResponse {
   user: User!
 }
 
+type UserOutput {
+  id: ID!
+  email: String!
+}
+
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
+  showUsersEmail: [UserOutput!]!
   comments: [Comment!]!
   comment(id: String!): Comment!
   genres: [Genre!]!

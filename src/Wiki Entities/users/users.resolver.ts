@@ -6,6 +6,7 @@ import { UseGuards } from '@nestjs/common';
 import { AdminRoleGuard } from 'src/auth/guards/adminRole.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
+import { UserOutput } from './dto/outputs/user.output';
 
 @Resolver(() => User)
 @UseGuards(AuthGuard)
@@ -22,6 +23,11 @@ export class UsersResolver {
   @Query(() => User, { name: 'showUser' })
   findOne(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.findOne(id);
+  }
+  
+  @Query(() => [UserOutput], { name: 'showUsersEmail' })
+  findAllEmails(): Promise<any>{
+    return this.usersService.findAllUserEmail();
   }
 
   @Mutation(() => User, { name: 'updateUser' })

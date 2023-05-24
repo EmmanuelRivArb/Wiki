@@ -11,11 +11,8 @@ import { UpdateUserInput } from './dto/inputs/update-user.input';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
 import { AuthInput } from 'src/auth/dto/inputs/auth.input';
-import { ID } from '@nestjs/graphql';
 import { Role } from 'src/auth/enums/role.enum';
-import { userInfo } from 'os';
 
 @Injectable()
 export class UsersService {
@@ -40,6 +37,12 @@ export class UsersService {
 
   async findAll(): Promise<User[]> {
     return await this.userRepository.find();
+  }
+
+  async findAllUserEmail(): Promise<any> {
+    const users = await this.userRepository.find();
+    const usersOutput = users.map((user) => {return ({id:user.id, email:user.email})})
+    return usersOutput
   }
 
   async findOne(id: string) {
