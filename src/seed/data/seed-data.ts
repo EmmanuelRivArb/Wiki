@@ -1,28 +1,28 @@
 export const SEED_USERS = [
 
     {
-        email:"Itop_1@correo.com",
+        email:"Moi@correo.com",
         password:"Asdf1234!",
-        name:"Itop",
-        surname:"1"
+        name:"Moi",
+        surname:"Santana"
     },
     {
-        email:"Itop_2@correo.com",
+        email:"Jose@correo.com",
         password:"Asdf1234!",
-        name:"Itop",
-        surname:"2"
+        name:"José",
+        surname:"Suárez"
     },
     {
-        email:"Itop_3@correo.com",
+        email:"Emmanuel@correo.com",
         password:"Asdf1234!",
-        name:"Itop",
-        surname:"3"
+        name:"Emmanuel",
+        surname:"Rivero"
     },
     {
-        email:"Itop_4@correo.com",
+        email:"2DAW@correo.com",
         password:"Asdf1234!",
-        name:"Itop",
-        surname:"4"
+        name:"2DAW",
+        surname:"2DAW"
 
     },
     
@@ -30,17 +30,23 @@ export const SEED_USERS = [
 
 export const SEED_ADMINS = [
     {
-        email:"Itop_5@correo.com",
+        email:"MoiAdmin@correo.com",
         password:"Asdf1234!",
-        name:"Itop",
-        surname:"5"
+        name:"Moi",
+        surname:"Santana"
     },
     {
-        email:"Itop_6@correo.com",
+        email:"JoseAdmin@correo.com",
         password:"Asdf1234!",
-        name:"Itop",
-        surname:"6"
-    }
+        name:"Jose",
+        surname:"Suárez"
+    },
+    {
+        email:"EmmanuelAdmin@correo.com",
+        password:"Asdf1234!",
+        name:"Emmanuel",
+        surname:"Rivero"
+    },
 ]
 
 export const SEED_GENRES = [
