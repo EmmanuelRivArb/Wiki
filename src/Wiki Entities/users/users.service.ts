@@ -67,13 +67,14 @@ export class UsersService {
         user = await this.userRepository.preload({...updateUserInput, password:bcrypt.hashSync(updateUserInput.password, 10)});
       else
         user = await this.userRepository.preload(updateUserInput);*/
-      if(!(currentUser.roles.includes(Role.Admin)&&updateUserInput.isActive))
+      if(!currentUser.roles.includes(Role.Admin))
       {
         if(updateUserInput.id != currentUser.id)
         {
           throw new BadRequestException(`You can't change the user:${updateUserInput.id} params. It is not your profile`)
         }
       } 
+
       const user = await this.userRepository.preload(updateUserInput);
       delete user.password
 
