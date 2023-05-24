@@ -89,7 +89,6 @@ type Query {
 }
 
 type Mutation {
-  createUser(authInput: AuthInput!): User!
   updateUser(updateUserInput: UpdateUserInput!): User!
   signup(authInput: AuthInput!): AuthResponse!
   login(loginInput: LoginInput!): AuthResponse!
@@ -97,6 +96,7 @@ type Mutation {
   createGameComment(id: String!, createCommentInput: CreateCommentInput!): Game!
   createMovieComment(id: String!, createCommentInput: CreateCommentInput!): Movie!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  removeComment(id: String!): Boolean!
 
   """Carga de valores la base de datos"""
   executeSeed: Boolean!
@@ -108,17 +108,10 @@ type Mutation {
   removeBook(id: String!): Boolean!
   createMovie(createMovieInput: CreateMovieInput!, genreName: String!): Movie!
   updateMovie(updateMovieInput: UpdateMovieInput!): Movie!
-  removeMovie(id: String!): Movie!
+  removeMovie(id: String!): Boolean!
   createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
-  removeGame(id: String!): Game!
-}
-
-input AuthInput {
-  email: String
-  name: String
-  surname: String
-  password: String
+  removeGame(id: String!): Boolean!
 }
 
 input UpdateUserInput {
@@ -128,6 +121,13 @@ input UpdateUserInput {
   surname: String
   password: String
   isActive: Boolean
+}
+
+input AuthInput {
+  email: String
+  name: String
+  surname: String
+  password: String
 }
 
 input LoginInput {

@@ -14,7 +14,6 @@ import { MoviesModule } from './Wiki Entities/movies/movies.module';
 import { UsersModule } from './Wiki Entities/users/users.module';
 import { CommentsModule } from './Wiki Entities/comments/comments.module';
 import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './auth/guards/roles.guard';
 
 @Module({
   imports: [
@@ -50,9 +49,6 @@ import { RolesGuard } from './auth/guards/roles.guard';
     MoviesModule,
   ],
   controllers: [],
-  providers: [{
-    provide: APP_GUARD,
-    useClass: RolesGuard,
-  }],
+  providers: [],
 })
 export class AppModule {}

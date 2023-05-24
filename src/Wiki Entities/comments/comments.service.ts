@@ -35,7 +35,7 @@ export class CommentsService {
         book:{id:book_id},
         user,
       });
-      
+
       return await this.commentRepository.save(comment);
     } catch (error) {
       this.handlerDBError(error);
@@ -66,6 +66,7 @@ export class CommentsService {
     user: User,
   ): Promise<Comment> {
     try {
+
       const comment = await this.commentRepository.create({
         ...createCommentInput,
         movie:{id:movie_id},
@@ -123,54 +124,21 @@ export class CommentsService {
       else this.handlerDBError(error);
     }
   }
-/*
-  async block(id: string, user: User): Promise<Comment> {
-    const comment = await this.findOne(id, user);
-    comment.isActive = false;
-    return await this.commentRepository.save(comment);
+
+  async remove(
+    comment_id: string,
+    user: User,
+  ): Promise<Boolean> {
+    try {
+      const comment = await this.findOne(comment_id, user);
+      const updateComment = await this.commentRepository.remove(comment);
+      return true
+    } catch (error) {
+      if (error instanceof NotFoundException) throw error;
+      else this.handlerDBError(error);
+    }
   }
 
-  async blockComments(user: User): Promise<Comment[]> {
-    const comments: Comment[] = await this.findAll(user);
-    comments.forEach(async (comment) => {
-      comment.isActive = false;
-      await this.commentRepository.save(comment);
-    });
-    return comments;
-  }
-
-  async commentCountByUser(user: User): Promise<number> {
-    return this.commentRepository.count({
-      where: {
-        user: {
-          id: user.id,
-        },
-      },
-    });
-  }
-
-  async commentActiveCountByUser(user: User): Promise<number> {
-    return this.commentRepository.count({
-      where: {
-        isActive: true,
-        user: {
-          id: user.id,
-        },
-      },
-    });
-  }
-
-  async commentBlockedCountByUser(user: User): Promise<number> {
-    return this.commentRepository.count({
-      where: {
-        isActive: false,
-        user: {
-          id: user.id,
-        },
-      },
-    });
-  }
-*/
   private handlerDBError(error: any): never {
     if (error.code === '23505') throw new BadRequestException(error.detail);
 

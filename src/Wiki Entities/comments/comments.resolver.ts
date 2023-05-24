@@ -62,13 +62,12 @@ export class CommentsResolver {
     return this.commentsService.update(updateCommentInput, user);
   }
 
-  /*
-  @Mutation(() => Comment)
+  @Mutation(() => Boolean)
   removeComment(
-    @Args('id', { type: () => String }, ParseUUIDPipe) id: string,
+    @Args('id') comment_id: string,
     @CurrentUser() user: User,
-  ): Promise<Comment> {
-    return this.commentsService.block(id, user);
+  ): Promise<Boolean> {
+    return this.commentsService.remove(comment_id, user);
   }
-  */
+
 }

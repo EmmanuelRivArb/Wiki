@@ -3,27 +3,22 @@ import { UsersService } from './users.service';
 import { User } from './entities/user.entity';
 import { UpdateUserInput } from './dto/inputs/update-user.input';
 import { UseGuards } from '@nestjs/common';
+import { AdminRoleGuard } from 'src/auth/guards/adminRole.guard';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
-import { AuthInput } from 'src/auth/dto/inputs/auth.input';
-import { Role } from 'src/auth/enums/role.enum';
-import { Roles } from 'src/auth/decorators/roles.decorator';
-import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 
 @Resolver(() => User)
+@UseGuards(AuthGuard)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
-  @Mutation(() => User)
-  createUser(@Args('authInput') authInput: AuthInput): Promise<User> {
-    return this.usersService.create(authInput);
-  }
-
+  @UseGuards(AdminRoleGuard)
   @Query(() => [User], { name: 'showUsers' })
-  @UseGuards(AuthGuard)
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
+  @UseGuards(AdminRoleGuard)
   @Query(() => User, { name: 'showUser' })
   findOne(@Args('id', { type: () => String }) id: string): Promise<User> {
     return this.usersService.findOne(id);
@@ -32,7 +27,8 @@ export class UsersResolver {
   @Mutation(() => User, { name: 'updateUser' })
   updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
+    @CurrentUser() user:User
   ): Promise<User> {
-    return this.usersService.update(updateUserInput);
+    return this.usersService.update(updateUserInput, user);
   }
 }

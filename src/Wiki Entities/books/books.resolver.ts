@@ -8,12 +8,14 @@ import { UseGuards } from '@nestjs/common';
 import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { User } from '../users/entities/user.entity';
 import { CreateCommentInput } from '../comments/dto/create-comment.input';
+import { AdminRoleGuard } from 'src/auth/guards/adminRole.guard';
 
 @Resolver(() => Book)
 @UseGuards(AuthGuard)
 export class BooksResolver {
   constructor(private readonly booksService: BooksService) {}
 
+  @UseGuards(AdminRoleGuard)
   @Mutation(() => Book)
   async createBook(
     @Args('createBookInput') createBookInput: CreateBookInput,
@@ -33,11 +35,13 @@ export class BooksResolver {
     return this.booksService.findOne(id);
   }
 
+  @UseGuards(AdminRoleGuard)
   @Mutation(() => Book)
   updateBook(@Args('updateBookInput') updateBookInput: UpdateBookInput) {
     return this.booksService.update(updateBookInput.id, updateBookInput);
   }
 
+  @UseGuards(AdminRoleGuard)
   @Mutation(() => Boolean)
   removeBook(@Args('id', { type: () => String }) id: string) {
     return this.booksService.remove(id);

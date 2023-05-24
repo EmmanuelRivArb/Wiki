@@ -8,12 +8,14 @@ import { User } from '../users/entities/user.entity';
 import { CreateCommentInput } from '../comments/dto/create-comment.input';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { UseGuards } from '@nestjs/common';
+import { AdminRoleGuard } from 'src/auth/guards/adminRole.guard';
 
 @Resolver(() => Game)
 @UseGuards(AuthGuard)
 export class GamesResolver {
   constructor(private readonly gamesService: GamesService) {}
 
+  @UseGuards(AdminRoleGuard)
   @Mutation(() => Game)
   createGame(
     @Args('createGameInput') createGameInput: CreateGameInput,
@@ -32,12 +34,14 @@ export class GamesResolver {
     return this.gamesService.findOne(id);
   }
 
+  @UseGuards(AdminRoleGuard)
   @Mutation(() => Game)
   updateGame(@Args('updateGameInput') updateGameInput: UpdateGameInput) {
     return this.gamesService.update(updateGameInput.id, updateGameInput);
   }
 
-  @Mutation(() => Game)
+  @UseGuards(AdminRoleGuard)
+  @Mutation(() => Boolean)
   removeGame(@Args('id', { type: () => String }) id: string) {
     return this.gamesService.remove(id);
   }

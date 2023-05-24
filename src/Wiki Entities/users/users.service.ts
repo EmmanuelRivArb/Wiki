@@ -60,15 +60,20 @@ export class UsersService {
     return user;
   }
 
-  async update(updateUserInput: UpdateUserInput): Promise<User> {
+  async update(updateUserInput: UpdateUserInput, currentUser:User): Promise<User> {
     try {
       /*let user;
       if(updateUserInput.password)
         user = await this.userRepository.preload({...updateUserInput, password:bcrypt.hashSync(updateUserInput.password, 10)});
       else
         user = await this.userRepository.preload(updateUserInput);*/
-
+      if(updateUserInput.id != currentUser.id)
+      {
+        throw new BadRequestException(`You can't change the user:${updateUserInput.id} params. It is not your profile`)
+      }
+    
       const user = await this.userRepository.preload(updateUserInput);
+      delete user.password
 
       if (!user) {
         throw new NotFoundException(
@@ -81,18 +86,7 @@ export class UsersService {
       this.handlerDBError(error);
     }
   }
-  /*
-  async block(
-    id: string
-  ):Promise<User> {
 
-    const user = await this.findOne(id)
-    const comments = await this.commentsService.blockComments(user);
-    user.isActive = false;
-    return this.userRepository.save(user);
-
-  }
-*/
   async remove(id: string): Promise<Boolean> {
     const user = await this.findOne(id);
     await this.userRepository.remove(user);
