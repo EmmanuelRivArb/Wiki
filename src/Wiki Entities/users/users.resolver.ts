@@ -7,9 +7,9 @@ import { AuthGuard } from 'src/auth/guards/auth.guard';
 import { AuthInput } from 'src/auth/dto/inputs/auth.input';
 import { Role } from 'src/auth/enums/role.enum';
 import { Roles } from 'src/auth/decorators/roles.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
 
 @Resolver(() => User)
-@UseGuards(AuthGuard)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
@@ -19,7 +19,7 @@ export class UsersResolver {
   }
 
   @Query(() => [User], { name: 'showUsers' })
-  //@AuthGuard(Roles(Role.Admin))
+  @UseGuards(AuthGuard)
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }

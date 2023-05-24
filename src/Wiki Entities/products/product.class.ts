@@ -14,10 +14,6 @@ export abstract class Product{
   title: string;
 
   @Column({nullable:true})
-  @Field(() => Float) 
-  price: number;
-
-  @Column({nullable:true})
   @Field(() => String) 
   image: string;
 

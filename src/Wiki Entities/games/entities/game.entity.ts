@@ -21,7 +21,7 @@ export class Game extends Product {
   @Field(() => String) 
   title: string;
 
-  @Column({nullable:true})
+  @Column({type:'float8', nullable:true})
   @Field(() => Float) 
   price: number;
 

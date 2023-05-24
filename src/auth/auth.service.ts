@@ -29,7 +29,7 @@ export class AuthService {
     ):Promise<AuthResponse>{
 
         const create_user = await this.usersService.create(authInput);
-        const user = await this.usersService.findOneByUsername(create_user.email);   
+        const user = await this.usersService.findOneByEmail(create_user.email);   
         const token = await this.getToken(user);
         return {token, user}
     }
@@ -38,11 +38,11 @@ export class AuthService {
         loginInput:LoginInput
     ):Promise<AuthResponse>{
         
-        const user = await this.usersService.findOneByUsername(loginInput.email);
+        const user = await this.usersService.findOneByEmail(loginInput.email);
 
         if(!bcrypt.compareSync(loginInput.password, user.password))
         {
-            throw new BadRequestException(`Username or Password incorrect.`)
+            throw new BadRequestException(`Email or Password incorrect.`)
         }
 
         if(!user.isActive)

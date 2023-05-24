@@ -14,8 +14,12 @@ type Game {
 }
 
 type Movie {
+  id: ID!
+  title: String!
   director: String!
   duration: Int!
+  image: String!
+  description: String!
   genre: Genre!
   comments: [Comment!]!
 }
@@ -167,17 +171,24 @@ input UpdateBookInput {
 }
 
 input CreateMovieInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  title: String!
+  director: String
+  duration: Int
+  image: String
+  description: String
 }
 
 input UpdateMovieInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  title: String
+  director: String
+  duration: Int
+  image: String
+  description: String
   id: String!
 }
 
 input CreateGameInput {
+  developers: String
   title: String!
   price: Float
   image: String
@@ -185,6 +196,7 @@ input CreateGameInput {
 }
 
 input UpdateGameInput {
+  developers: String
   title: String
   price: Float
   image: String

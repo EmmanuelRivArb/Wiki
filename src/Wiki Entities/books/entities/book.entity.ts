@@ -21,7 +21,7 @@ export class Book extends Product{
   @Field(() => String) 
   title: string;
 
-  @Column({nullable:true})
+  @Column({type:'float8', nullable:true})
   @Field(() => Float, {nullable:true}) 
   price: number;
 

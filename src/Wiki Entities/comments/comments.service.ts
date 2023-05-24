@@ -29,11 +29,13 @@ export class CommentsService {
     user: User,
   ): Promise<Comment> {
     try {
+
       const comment = await this.commentRepository.create({
         ...createCommentInput,
         book:{id:book_id},
         user,
       });
+      
       return await this.commentRepository.save(comment);
     } catch (error) {
       this.handlerDBError(error);
