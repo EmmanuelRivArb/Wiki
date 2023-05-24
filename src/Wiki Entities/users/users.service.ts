@@ -67,7 +67,7 @@ export class UsersService {
         user = await this.userRepository.preload({...updateUserInput, password:bcrypt.hashSync(updateUserInput.password, 10)});
       else
         user = await this.userRepository.preload(updateUserInput);*/
-      if(!currentUser.roles.includes(Role.Admin))
+      if(!(currentUser.roles.includes(Role.Admin)&&updateUserInput.isActive))
       {
         if(updateUserInput.id != currentUser.id)
         {
