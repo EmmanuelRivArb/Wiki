@@ -72,15 +72,9 @@ type AuthResponse {
   user: User!
 }
 
-type UserOutput {
-  id: ID!
-  email: String!
-}
-
 type Query {
   showUsers: [User!]!
   showUser(id: String!): User!
-  showUsersEmail: [UserOutput!]!
   comments: [Comment!]!
   comment(id: String!): Comment!
   genres: [Genre!]!
@@ -95,7 +89,7 @@ type Query {
 }
 
 type Mutation {
-  updateUser(updateUserInput: UpdateUserInput!): User!
+  updateUser(userId: String!): Boolean!
   signup(authInput: AuthInput!): AuthResponse!
   login(loginInput: LoginInput!): AuthResponse!
   createBookComment(id: String!, createCommentInput: CreateCommentInput!): Book!
@@ -118,15 +112,6 @@ type Mutation {
   createGame(createGameInput: CreateGameInput!, genreName: String!): Game!
   updateGame(updateGameInput: UpdateGameInput!): Game!
   removeGame(id: String!): Boolean!
-}
-
-input UpdateUserInput {
-  id: ID!
-  email: String
-  name: String
-  surname: String
-  password: String
-  isActive: Boolean
 }
 
 input AuthInput {

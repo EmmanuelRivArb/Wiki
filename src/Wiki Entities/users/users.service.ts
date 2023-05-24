@@ -93,7 +93,13 @@ export class UsersService {
     }
   }
 
-  async remove(id: string): Promise<Boolean> {
+  async remove(id: string, currentUser:User): Promise<Boolean> {
+    
+    if(id == currentUser.id)
+    {
+      throw new BadRequestException(`You can't remove yourself`)
+    }
+    
     const user = await this.findOne(id);
     await this.userRepository.remove(user);
     return true;
