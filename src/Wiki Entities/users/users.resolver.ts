@@ -9,16 +9,17 @@ import { CurrentUser } from 'src/auth/decorators/current-user.decorator';
 import { UserOutput } from './dto/outputs/user.output';
 
 @Resolver(() => User)
-@UseGuards(AuthGuard)
 export class UsersResolver {
   constructor(private readonly usersService: UsersService) {}
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminRoleGuard)
   @Query(() => [User], { name: 'showUsers' })
   findAll(): Promise<User[]> {
     return this.usersService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @UseGuards(AdminRoleGuard)
   @Query(() => User, { name: 'showUser' })
   findOne(@Args('id', { type: () => String }) id: string): Promise<User> {
@@ -30,6 +31,7 @@ export class UsersResolver {
     return this.usersService.findAllUserEmail();
   }
 
+  @UseGuards(AuthGuard)
   @Mutation(() => User, { name: 'updateUser' })
   updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
