@@ -34,7 +34,7 @@ export class UsersResolver {
   }
 
   @UseGuards(AdminRoleGuard)
-  @Mutation(() => Boolean, { name: 'updateUser' })
+  @Mutation(() => Boolean, { name: 'removeUser' })
   removeUser(
     @Args('userId') userId:string,
     @CurrentUser() user:User
